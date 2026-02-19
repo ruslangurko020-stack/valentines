@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Руслан & Крістіна | Весілля</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    font-family:'Montserrat',sans-serif;
+    background:#0c0c0f;
+    color:#e8d8a8;
+    text-align:center;
+    overflow-x:hidden;
+}
+
+/* КОНВЕРТ */
+#envelopeScreen{
+    position:fixed;
+    inset:0;
+    background:#0c0c0f;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:9999;
+}
+
+.envelope{
+    width:200px;
+    height:130px;
+    background:#d4af37;
+    position:relative;
+    cursor:pointer;
+}
+
+.envelope:before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    width:0;
+    height:0;
+    border-left:100px solid transparent;
+    border-right:100px solid transparent;
+    border-bottom:70px solid #bfa85a;
+}
+
+#openText{
+    margin-top:20px;
+    font-family:'Cinzel',serif;
+    letter-spacing:2px;
+}
+
+/* ГОЛОВНИЙ КОНТЕНТ */
+#mainContent{display:none}
+
+/* ЗОЛОТО */
+.золото{
+    background:linear-gradient(90deg,#d4af37,#fff3c4,#d4af37);
+    background-size:200%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:shine 4s infinite linear;
+}
+
+@keyframes shine{
+    0%{background-position:0%}
+    100%{background-position:200%}
+}
+
+section{padding:100px 20px}
+
+h1{
+    font-family:'Cinzel',serif;
+    font-size:60px;
+}
+
+/* ОБРУЧКИ */
+.rings{
+    font-size:50px;
+    animation:rotate 5s linear infinite;
+}
+
+@keyframes rotate{
+    from{transform:rotate(0deg)}
+    to{transform:rotate(360deg)}
+}
+
+.картка{
+    max-width:750px;
+    margin:50px auto;
+    padding:40px;
+    border:1px solid rgba(212,175,55,0.4);
+    border-radius:25px;
+    background:rgba(255,255,255,0.03);
+}
+
+button{
+    padding:14px 30px;
+    border-radius:30px;
+    border:none;
+    background:linear-gradient(90deg,#d4af37,#fff3c4,#d4af37);
+    font-weight:bold;
+    cursor:pointer;
+}
+
+footer{padding:40px;color:#bfa85a}
+</style>
+</head>
+<body>
+
+<!-- КОНВЕРТ -->
+<div id="envelopeScreen" onclick="openInvite()">
+    <div class="envelope"></div>
+    <div id="openText" class="золото">Натисніть, щоб відкрити запрошення</div>
+</div>
+
+<!-- ОСНОВНИЙ КОНТЕНТ -->
+<div id="mainContent">
+
+<section>
+<div class="rings">💍💍</div>
+<h1 class="золото">Руслан & Крістіна</h1>
+<div style="margin-top:20px;font-size:22px">22 квітня 2026 • 09:00</div>
+</section>
+
+<section>
+<div class="картка">
+<h2 class="золото">Церемонія</h2>
+<p>Волинська область, село Забужжя</p>
+</div>
+
+<div class="картка">
+<h2 class="золото">Святкування</h2>
+<p>Волинська область, село Голядин</p>
+</div>
+</section>
+
+<section>
+<div class="картка">
+<h2 class="золото">Підтвердження присутності</h2>
+<p>Просимо повідомити до 10 квітня 2026 року</p>
+<button onclick="alert('Форма буде підключена до таблиці 💎')">
+Підтвердити</button>
+</div>
+</section>
+
+<footer>
+З любов’ю ✨ Руслан & Крістіна
+</footer>
+
+</div>
+
+<script>
+function openInvite(){
+    document.getElementById("envelopeScreen").style.display="none";
+    document.getElementById("mainContent").style.display="block";
+}
+</script>
+
+</body>
+</html>
