@@ -1,7 +1,5 @@
 
 
-
-
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -21,24 +19,27 @@ text-align:center;
 overflow-x:hidden;
 }
 
-/* ===== ІМЕНА ===== */
+/* 🔥 ЧІТКІ ІМЕНА БЕЗ РОЗМИТТЯ */
 .names{
-font-size:56px;
+font-size:52px;
 font-weight:800;
-letter-spacing:2px;
-margin-top:80px;
+letter-spacing:1px;
 
-background:linear-gradient(180deg,#fff6c4,#ffd700,#c9a227);
+background:linear-gradient(180deg,#fff9d6 0%,#ffd700 40%,#c9a227 70%,#a67c00 100%);
 -webkit-background-clip:text;
+background-clip:text;
 color:transparent;
 
-text-shadow:1px 1px 0 rgba(0,0,0,0.6);
+text-shadow:
+0 1px 0 rgba(0,0,0,0.8),
+0 2px 2px rgba(0,0,0,0.6);
 
 -webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
 text-rendering:optimizeLegibility;
 }
 
-/* ===== КНОПКА МУЗИКИ ===== */
+/* КНОПКА МУЗИКИ */
 .music-btn{
 margin-top:40px;
 padding:15px 30px;
@@ -55,7 +56,6 @@ font-size:18px;
 opacity:0.8;
 }
 
-/* ===== БЛОК ПІСЛЯ МУЗИКИ ===== */
 .content{
 display:none;
 margin-top:60px;
@@ -75,7 +75,6 @@ border-radius:20px;
 box-shadow:0 0 25px rgba(255,215,0,0.3);
 }
 
-/* ===== КАРТА ===== */
 .map{
 margin-top:40px;
 width:90%;
@@ -84,7 +83,6 @@ border:0;
 border-radius:20px;
 }
 
-/* ===== ЛАЙК ===== */
 .like-btn{
 margin-top:40px;
 padding:15px 30px;
@@ -158,7 +156,6 @@ document.querySelector(".like-btn").appendChild(heart);
 
 setTimeout(()=>heart.remove(),600);
 
-/* ЗБЕРЕЖЕННЯ В GOOGLE ТАБЛИЦЮ */
 fetch("ВАШ_GOOGLE_SCRIPT_URL",{
 method:"POST"
 });
