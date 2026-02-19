@@ -3,287 +3,200 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Руслан & Крістіна | Весілля</title>
+<title>Руслан та Крістіна</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
-
 body{
-font-family:'Montserrat',sans-serif;
-background:#0c0c0f;
-color:#fff;
-text-align:center;
-overflow-x:hidden;
+  margin:0;
+  font-family:'Playfair Display',serif;
+  background:black;
+  color:white;
+  text-align:center;
+  overflow-x:hidden;
 }
 
-/* CONTAINER */
-section{padding:80px 20px;position:relative;}
-
-img{
-width:100%;
-max-width:420px;
-border-radius:20px;
-box-shadow:0 20px 60px rgba(0,0,0,0.6);
-margin:20px 0;
-transition:.6s;
-}
-
-img:hover{transform:scale(1.05);}
-
-/* NAMES */
-.names{
-font-family:'Playfair Display',serif;
-font-size:54px;
-margin-top:40px;
-letter-spacing:4px;
-}
-
-.names span{
-color:#d4af37;
-font-size:28px;
-}
-
-/* TIMER */
-.timer{
-font-size:30px;
-margin-top:20px;
-color:#d4af37;
-}
-
-/* BUTTON */
-button{
-padding:14px 30px;
-border:none;
-border-radius:30px;
-background:linear-gradient(45deg,#d4af37,#f5d76e);
-color:#000;
-font-weight:bold;
-cursor:pointer;
-margin-top:20px;
-transition:.4s;
-}
-
-button:hover{
-transform:scale(1.07);
-box-shadow:0 0 25px rgba(212,175,55,0.8);
-}
-
-/* FORM */
-form{
-margin-top:40px;
-display:flex;
-flex-direction:column;
-gap:15px;
-align-items:center;
-}
-
-input,select,textarea{
-width:90%;
-max-width:400px;
-padding:12px;
-border-radius:10px;
-border:none;
-}
-
-.success{
-margin-top:20px;
-color:#d4af37;
-display:none;
-font-weight:bold;
-}
-
-/* FADE */
-.fade{
-opacity:0;
-transform:translateY(50px);
-transition:1.2s;
-}
-
-.fade.show{
-opacity:1;
-transform:translateY(0);
-}
-
-/* ENVELOPE */
-.envelope-container{
-position:fixed;
-width:100%;
-height:100vh;
-background:#0c0c0f;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:9999;
-transition:1s;
+/* CONVERT */
+#envelopeScreen{
+  position:fixed;
+  width:100%;
+  height:100vh;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:9999;
 }
 
 .envelope{
-width:200px;
-height:120px;
-background:#d4af37;
-position:relative;
-cursor:pointer;
+  width:200px;
+  height:120px;
+  background:gold;
+  position:relative;
+  cursor:pointer;
 }
 
 .envelope:before{
-content:"";
-position:absolute;
-top:-60px;
-left:0;
-width:0;
-height:0;
-border-left:100px solid transparent;
-border-right:100px solid transparent;
-border-bottom:60px solid #f5d76e;
+  content:"";
+  position:absolute;
+  top:-60px;
+  border-left:100px solid transparent;
+  border-right:100px solid transparent;
+  border-bottom:60px solid #d4af37;
 }
 
-.opened{
-opacity:0;
-transform:translateY(-100%);
-pointer-events:none;
+.hidden{
+  display:none;
+}
+
+/* TITLE */
+h1{
+  font-size:42px;
+  background:linear-gradient(45deg,gold,#d4af37);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+button{
+  background:gold;
+  border:none;
+  padding:12px 25px;
+  border-radius:30px;
+  cursor:pointer;
+  margin:10px;
+}
+
+/* GALLERY */
+.gallery{
+  column-count:2;
+  column-gap:15px;
+  padding:20px;
+}
+
+.gallery img{
+  width:100%;
+  margin-bottom:15px;
+  border-radius:20px;
 }
 
 /* HEARTS */
 .heart{
-position:fixed;
-color:#d4af37;
-animation:float 6s linear infinite;
-z-index:0;
+  position:fixed;
+  top:-10px;
+  color:gold;
+  animation:fall 6s linear infinite;
 }
 
-@keyframes float{
-0%{transform:translateY(100vh);opacity:0;}
-50%{opacity:1;}
-100%{transform:translateY(-10vh);opacity:0;}
+@keyframes fall{
+  to{ transform:translateY(100vh); }
+}
+
+#timer{
+  font-size:22px;
+  margin-top:15px;
 }
 
 .guest-list{
-margin-top:30px;
-color:#d4af37;
+  margin-top:20px;
 }
 </style>
 </head>
-
 <body>
 
-<div class="envelope-container" id="envelopeBox">
+<div id="envelopeScreen">
 <div class="envelope" onclick="openEnvelope()"></div>
-<p style="margin-top:20px;">Натисніть, щоб відкрити запрошення 💌</p>
+<p>Натисніть щоб відкрити запрошення 💌</p>
 </div>
 
-<audio id="music" src="music.mp3"></audio>
-<button onclick="document.getElementById('music').play()">🎵 Увімкнути музику</button>
+<audio id="bgMusic" src="music.mp3"></audio>
 
-<section class="fade">
-<img src="girl.jpg">
-<img src="boy.jpg">
-<img src="ring.jpg">
+<h1>Руслан та Крістіна</h1>
+
+<button onclick="playMusic()">🎵 Увімкнути музику</button>
+<p id="scrollText"></p>
+
+<div id="timer"></div>
+
+<div class="gallery">
+<img src="child1.jpg">
+<img src="child2.jpg">
 <img src="together1.jpg">
 <img src="together2.jpg">
+</div>
 
-<h1 class="names">
-Руслан <br><span>та</span><br> Крістіна
-</h1>
+<div>
+<h2>Весілля 💍</h2>
+<p>📅 22 квітня 2026</p>
+<p>⏰ 09:00</p>
 
-<div class="timer" id="timer"></div>
-</section>
+<p>⛪ Церемонія — Волинська область, с. Забужжя</p>
+<a href="https://www.google.com/maps/search/?api=1&query=Забужжя+Волинська+область" target="_blank">
+<button>📍 Маршрут</button>
+</a>
 
-<section class="fade">
-<h2>💌 Підтвердження</h2>
+<p>🥂 Застілля — Волинська область, с. Голядин</p>
+<a href="https://www.google.com/maps/search/?api=1&query=Голядин+Волинська+область" target="_blank">
+<button>📍 Маршрут</button>
+</a>
 
+<a href="wedding.ics" download>
+<button>📅 Додати в календар</button>
+</a>
+</div>
+
+<div>
+<h2>Підтвердження 💌</h2>
 <form id="rsvpForm">
 <input type="text" name="name" placeholder="Ваше ім'я" required>
 <select name="attendance" required>
 <option value="">Чи будете ви?</option>
-<option value="Так">Так ❤️</option>
+<option value="Так">Так</option>
 <option value="Ні">Ні</option>
 </select>
-<textarea name="message" placeholder="Побажання"></textarea>
 <button type="submit">Підтвердити</button>
 </form>
-
-<div class="success" id="successMsg">
-Дякуємо 💌
-</div>
 
 <div class="guest-list">
 <h3>👥 Хто вже підтвердив:</h3>
 <ul id="guests"></ul>
 </div>
-
-</section>
+</div>
 
 <script>
+
 function openEnvelope(){
-document.getElementById("envelopeBox").classList.add("opened");
+  document.getElementById("envelopeScreen").classList.add("hidden");
+}
+
+function playMusic(){
+  document.getElementById("bgMusic").play();
+  document.getElementById("scrollText").innerHTML="Гортайте вниз ↓";
 }
 
 /* TIMER */
-const weddingDate=new Date("July 20, 2025 14:00:00").getTime();
-const timer=document.getElementById("timer");
+const weddingDate = new Date("April 22, 2026 09:00:00").getTime();
 
-setInterval(()=>{
-const now=new Date().getTime();
-const distance=weddingDate-now;
+setInterval(function(){
+  const now = new Date().getTime();
+  const distance = weddingDate - now;
 
-const days=Math.floor(distance/(1000*60*60*24));
-const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
-const seconds=Math.floor((distance%(1000*60)) / 1000);
-
-timer.innerHTML=`До весілля: ${days}д ${hours}г ${minutes}х ${seconds}с`;
+  const days = Math.floor(distance / (1000*60*60*24));
+  document.getElementById("timer").innerHTML =
+  "До весілля залишилось: "+days+" днів";
 },1000);
 
-/* FADE */
-const faders=document.querySelectorAll('.fade');
-window.addEventListener('scroll',()=>{
-faders.forEach(el=>{
-if(el.getBoundingClientRect().top<window.innerHeight-100){
-el.classList.add('show');
-}
-});
-});
-
-/* FORM */
-document.getElementById("rsvpForm").addEventListener("submit",async function(e){
-e.preventDefault();
-
-await fetch("ТУТ_ТВІЙ_GOOGLE_SCRIPT_URL",{
-method:"POST",
-body:JSON.stringify({
-name:this.name.value,
-attendance:this.attendance.value,
-message:this.message.value
-})
-});
-
-document.getElementById("successMsg").style.display="block";
-
-if(this.attendance.value==="Так"){
-const li=document.createElement("li");
-li.textContent=this.name.value;
-document.getElementById("guests").appendChild(li);
-}
-
-this.reset();
-});
-
 /* HEARTS */
-function createHeart(){
-const heart=document.createElement("div");
-heart.className="heart";
-heart.innerHTML="❤";
-heart.style.left=Math.random()*100+"vw";
-heart.style.fontSize=Math.random()*20+10+"px";
-heart.style.animationDuration=Math.random()*3+3+"s";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),6000);
-}
-setInterval(createHeart,700);
-</script>
+setInterval(()=>{
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML="❤";
+  heart.style.left=Math.random()*100+"vw";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+},500);
 
+</script>
 </body>
 </html>
