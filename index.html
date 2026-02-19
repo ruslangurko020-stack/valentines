@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -6,61 +7,114 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Руслан & Крістіна</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
 body{
 margin:0;
-background:black;
+background:radial-gradient(circle at center,#0a0a0a 0%,#000 80%);
 color:white;
 font-family:'Cinzel',serif;
 overflow-x:hidden;
 scroll-behavior:smooth;
 }
 
-section{padding:60px 20px;text-align:center}
+/* GOLD DUST */
+body::before{
+content:"";
+position:fixed;
+width:100%;
+height:100%;
+background-image:radial-gradient(gold 1px,transparent 1px);
+background-size:4px 4px;
+opacity:0.05;
+animation:dust 25s linear infinite;
+pointer-events:none;
+}
+@keyframes dust{
+from{background-position:0 0}
+to{background-position:0 2000px}
+}
 
-.hidden{opacity:0;transform:translateY(40px);transition:1.5s}
-.show{opacity:1;transform:translateY(0)}
+/* ENVELOPE */
+#envelope{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:320px;
+height:220px;
+background:#111;
+border:2px solid gold;
+perspective:1000px;
+cursor:pointer;
+z-index:1000;
+}
+.flap{
+position:absolute;
+width:100%;
+height:100%;
+background:#222;
+clip-path:polygon(0 0,100% 0,50% 50%);
+transform-origin:top;
+transition:1.5s;
+}
+.open .flap{
+transform:rotateX(180deg);
+}
+
+section{
+padding:60px 20px;
+text-align:center;
+opacity:0;
+transform:translateY(40px);
+transition:1.5s ease;
+}
+.show{
+opacity:1;
+transform:translateY(0);
+}
 
 button{
-padding:15px 30px;
+padding:15px 35px;
 background:linear-gradient(45deg,#b8860b,#ffd700);
 border:none;
-color:black;
-font-weight:bold;
 border-radius:30px;
+font-weight:bold;
 cursor:pointer;
 }
 
-h1{
+.names{
 font-size:60px;
-background:linear-gradient(45deg,#ffd700,#fff8dc,#ffd700);
+font-weight:900;
+background:linear-gradient(90deg,#ffd700,#fff,#ffd700);
+background-size:200%;
 -webkit-background-clip:text;
 color:transparent;
-animation:shine 3s infinite linear;
+animation:shine 3s linear infinite;
 }
-
 @keyframes shine{
-0%{background-position:-200px}
-100%{background-position:200px}
+0%{background-position:-200%}
+100%{background-position:200%}
 }
 
-.rings{
-font-size:60px;
-animation:float 3s ease-in-out infinite;
-color:gold;
+#ringsCanvas{
+width:100%;
+height:200px;
 }
 
-@keyframes float{
-0%,100%{transform:translateY(0)}
-50%{transform:translateY(-10px)}
+.full-img{
+width:100%;
+display:block;
+opacity:0;
+transform:translateY(40px);
+transition:1.5s;
 }
-
-.photo{
-width:40%;
-border-radius:20px;
-box-shadow:0 0 20px gold;
+.full-img.show{
+opacity:1;
+transform:translateY(0);
 }
 
 .grid{
@@ -68,17 +122,32 @@ display:grid;
 grid-template-columns:1fr 1fr;
 gap:20px;
 }
+.grid img{
+width:100%;
+border-radius:20px;
+box-shadow:0 0 25px gold;
+opacity:0;
+transform:scale(0.9);
+transition:1.5s;
+}
+.grid img.show{
+opacity:1;
+transform:scale(1);
+}
 
 .timer{
-font-size:24px;
+font-size:26px;
 margin-top:20px;
 }
 
-input,select{
-padding:10px;
-margin:10px;
-border-radius:10px;
-border:none;
+.heart{
+position:fixed;
+top:-10px;
+color:gold;
+animation:fall 5s linear forwards;
+}
+@keyframes fall{
+to{transform:translateY(110vh)}
 }
 
 #thanks{
@@ -94,52 +163,39 @@ align-items:center;
 justify-content:center;
 font-size:40px;
 display:none;
-z-index:999;
-}
-
-.heart{
-position:fixed;
-top:-10px;
-font-size:20px;
-color:gold;
-animation:fall 5s linear forwards;
-}
-
-@keyframes fall{
-to{transform:translateY(110vh)}
+z-index:2000;
 }
 </style>
 </head>
 
 <body>
 
+<div id="envelope" onclick="openEnvelope()">
+<div class="flap"></div>
+</div>
+
 <audio id="music" src="music.mp3"></audio>
 
-<section id="start">
-<h2>💌</h2>
-<button onclick="openEnvelope()">Відкрити конверт</button>
-</section>
-
-<section id="musicSection" style="display:none">
+<section id="musicSection">
 <button onclick="startMusic()">Увімкнути музику</button>
-<p id="scrollText" style="display:none">Після натискання Увімкнути музику Гортайте вниз ↓</p>
+<p id="scrollText" style="display:none">Гортайте вниз ↓</p>
 </section>
 
-<section id="mainContent" style="display:none">
+<section id="main">
 
-<div class="rings">💍💍</div>
-<h1>Руслан</h1>
-<h1>та</h1>
-<h1>Крістіна</h1>
+<div id="ringsCanvas"></div>
+
+<div class="names">Руслан</div>
+<div class="names">та</div>
+<div class="names">Крістіна</div>
+
 <p>📅 22 квітня 2026</p>
 
 <div class="timer" id="timer"></div>
 
 <h2>Дитячі фото</h2>
-<div>
-<img src="boy.jpg" class="photo hidden">
-<img src="girl.jpg" class="photo hidden" style="margin-left:20%">
-</div>
+<img src="boy.jpg" class="full-img">
+<img src="girl.jpg" class="full-img">
 
 <p>
 Нажаль ,ці двоє малюків вже давно виросли , пройшли частину свого життя ,набили свої гулі ,і готові створювати свою сім'ю ,вони чекають на цей урочистий і важливий день ,і з пошаною очікують на вас ❤️ ❤️
@@ -147,8 +203,8 @@ to{transform:translateY(110vh)}
 
 <h2>Наші спільні фото</h2>
 <div class="grid">
-<img src="together1.jpg" class="photo hidden">
-<img src="together2.jpg" class="photo hidden">
+<img src="together1.jpg">
+<img src="together2.jpg">
 </div>
 
 <h2>Інформація</h2>
@@ -160,16 +216,17 @@ to{transform:translateY(110vh)}
 <p>🥂 Голядин, Волинська область</p>
 <iframe src="https://www.google.com/maps?q=Голядин,Волинська+область&output=embed" width="100%" height="250"></iframe>
 
+<img src="GirlBoy.jpg" class="full-img">
+
 <h2>Підтвердження</h2>
-<input type="text" id="name" placeholder="Ваше ім'я">
+<input id="name" placeholder="Фамілія сім'ї та Ім'я хто буде">
 <select id="status">
 <option>Буду</option>
-<option>Дуже хочу бути, але не зможу</option>
+<option>Дуже хочу бути,але не зможу</option>
 <option>Не буду</option>
 </select>
 <button onclick="saveGuest()">Підтвердити</button>
 
-<h3>Список гостей:</h3>
 <ul id="guestList"></ul>
 
 <button onclick="downloadICS()">Додати в календар</button>
@@ -180,17 +237,23 @@ to{transform:translateY(110vh)}
 
 <script>
 
+/* ENVELOPE */
 function openEnvelope(){
-document.getElementById("start").style.display="none";
-document.getElementById("musicSection").style.display="block";
+document.getElementById("envelope").classList.add("open");
+setTimeout(()=>{
+document.getElementById("envelope").style.display="none";
+document.getElementById("musicSection").classList.add("show");
+},1500);
 }
 
+/* MUSIC */
 function startMusic(){
 document.getElementById("music").play();
 document.getElementById("scrollText").style.display="block";
-document.getElementById("mainContent").style.display="block";
+document.getElementById("main").classList.add("show");
 }
 
+/* TIMER */
 const date=new Date("April 22, 2026 00:00:00").getTime();
 setInterval(()=>{
 const now=new Date().getTime();
@@ -203,6 +266,7 @@ document.getElementById("timer").innerHTML=
 `⏳ ${d} днів ${h} год ${m} хв ${s} сек`;
 },1000);
 
+/* SCROLL ANIMATION */
 const observer=new IntersectionObserver(entries=>{
 entries.forEach(entry=>{
 if(entry.isIntersecting){
@@ -210,8 +274,9 @@ entry.target.classList.add("show");
 }
 });
 });
-document.querySelectorAll(".hidden").forEach(el=>observer.observe(el));
+document.querySelectorAll(".full-img, .grid img").forEach(el=>observer.observe(el));
 
+/* GUEST SAVE */
 function saveGuest(){
 const name=document.getElementById("name").value;
 const status=document.getElementById("status").value;
@@ -223,10 +288,9 @@ loadGuests();
 document.getElementById("thanks").style.display="flex";
 setTimeout(()=>{document.getElementById("thanks").style.display="none"},3000);
 }
-
 function loadGuests(){
 let guests=JSON.parse(localStorage.getItem("guests"))||[];
-const list=document.getElementById("guestList");
+let list=document.getElementById("guestList");
 list.innerHTML="";
 guests.forEach(g=>{
 let li=document.createElement("li");
@@ -236,21 +300,7 @@ list.appendChild(li);
 }
 loadGuests();
 
-function downloadICS(){
-const content=`BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-DTSTART:20260422T120000
-SUMMARY:Весілля Руслана та Крістіни
-END:VEVENT
-END:VCALENDAR`;
-const blob=new Blob([content],{type:"text/calendar"});
-const link=document.createElement("a");
-link.href=URL.createObjectURL(blob);
-link.download="wedding.ics";
-link.click();
-}
-
+/* HEARTS */
 setInterval(()=>{
 const heart=document.createElement("div");
 heart.className="heart";
@@ -260,8 +310,38 @@ document.body.appendChild(heart);
 setTimeout(()=>heart.remove(),5000);
 },500);
 
-</script>
+/* REAL 3D RINGS */
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(75,window.innerWidth/200,0.1,1000);
+const renderer=new THREE.WebGLRenderer({alpha:true});
+renderer.setSize(window.innerWidth,200);
+document.getElementById("ringsCanvas").appendChild(renderer.domElement);
 
+const geometry=new THREE.TorusGeometry(1,0.3,16,100);
+const material=new THREE.MeshStandardMaterial({color:0xffd700,metalness:1,roughness:0.2});
+const ring1=new THREE.Mesh(geometry,material);
+const ring2=new THREE.Mesh(geometry,material);
+
+ring1.position.x=-1.5;
+ring2.position.x=1.5;
+
+scene.add(ring1);
+scene.add(ring2);
+
+const light=new THREE.PointLight(0xffffff,1);
+light.position.set(5,5,5);
+scene.add(light);
+
+camera.position.z=5;
+
+function animate(){
+requestAnimationFrame(animate);
+ring1.rotation.y+=0.01;
+ring2.rotation.y-=0.01;
+renderer.render(scene,camera);
+}
+animate();
+
+</script>
 </body>
 </html>
-
