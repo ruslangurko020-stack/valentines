@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Руслан & Крістіна | Весілля</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -18,112 +18,139 @@ text-align:center;
 overflow-x:hidden;
 }
 
-h1{
-font-family:'Playfair Display',serif;
-font-size:42px;
-margin-top:80px;
+section{
+padding:60px 20px;
+opacity:0;
+transform:translateY(40px);
+transition:1s ease;
 }
 
-.date{
-margin-top:15px;
-font-size:18px;
-opacity:0.9;
+section.show{
+opacity:1;
+transform:translateY(0);
+}
+
+h1,h2{
+font-family:'Playfair Display',serif;
+margin-bottom:20px;
+}
+
+.gold{
+color:#d4af37;
 }
 
 .card{
-margin:40px 20px;
-padding:30px;
-border:1px solid #c8a74e;
+border:1px solid #d4af37;
 border-radius:20px;
-background:rgba(255,255,255,0.02);
-}
-
-.card h2{
-font-family:'Playfair Display',serif;
-margin-bottom:10px;
+padding:30px;
+margin:20px auto;
+max-width:500px;
+background:rgba(255,255,255,0.03);
+backdrop-filter:blur(10px);
 }
 
 button{
-margin-top:15px;
-padding:12px 20px;
-background:#c8a74e;
-border:none;
-border-radius:30px;
+background:#d4af37;
 color:#000;
-font-weight:bold;
+border:none;
+padding:15px 25px;
+border-radius:30px;
+font-weight:600;
 cursor:pointer;
+margin-top:15px;
 }
 
-iframe{
-width:100%;
-height:250px;
+.vs{
+font-size:40px;
+margin:20px 0;
+}
+
+.gallery img{
+width:45%;
+margin:5px;
 border-radius:15px;
-margin-top:15px;
+}
+
+input,select{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:10px;
+border:none;
 }
 
 footer{
-margin:60px 0 40px 0;
+margin:40px 0;
 font-size:14px;
-opacity:0.7;
-}
-
-/* Серця */
-.heart{
-position:fixed;
-bottom:-10px;
-font-size:20px;
-animation:float 6s linear infinite;
-color:#c8a74e;
-}
-
-@keyframes float{
-0%{transform:translateY(0) rotate(0);opacity:1}
-100%{transform:translateY(-110vh) rotate(360deg);opacity:0}
+color:#aaa;
 }
 </style>
 </head>
 
 <body>
 
-<h1>💍 Руслан & Крістіна</h1>
-<div class="date">22 квітня 2026 • 09:00</div>
+<section class="show">
+<h1>💍 Руслан <span class="vs gold">VS</span> Крістіна</h1>
+<p>22 квітня 2026 • 09:00</p>
+</section>
 
+<section>
 <div class="card">
-<h2>Церемонія</h2>
-<p>Волинська область, село Забужжя</p>
-<iframe src="https://www.google.com/maps?q=Забужжя+Волинська+область&output=embed"></iframe>
-<button onclick="addToCalendar()">📅 Додати в календар</button>
+<h2>🎵 Атмосфера</h2>
+<button onclick="playMusic()">Увімкнути музику</button>
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4f6d7bce38.mp3" type="audio/mpeg">
+</audio>
 </div>
+</section>
 
+<section>
 <div class="card">
-<h2>Святкування</h2>
-<p>Волинська область, село Голядин</p>
-<iframe src="https://www.google.com/maps?q=Голядин+Волинська+область&output=embed"></iframe>
+<h2>📸 Наша історія</h2>
+<div class="gallery">
+<img src="https://picsum.photos/300/400?1">
+<img src="https://picsum.photos/300/400?2">
 </div>
+</div>
+</section>
+
+<section>
+<div class="card">
+<h2>💌 Підтвердження присутності</h2>
+
+<form action="https://formsubmit.co/ruslangurko032@gmail.com" method="POST">
+
+<input type="text" name="name" placeholder="Ваше ім'я" required>
+<select name="attendance">
+<option value="Так">Буду присутній</option>
+<option value="Ні">Не зможу прийти</option>
+</select>
+
+<button type="submit">Підтвердити</button>
+</form>
+
+</div>
+</section>
 
 <footer>
 З любов'ю чекаємо на Вас ❤️
 </footer>
 
-<audio autoplay loop>
-<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_2f3b2bff3e.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-function addToCalendar(){
-window.open("https://calendar.google.com/calendar/render?action=TEMPLATE&text=Весілля+Руслан+%26+Крістіна&dates=20260422T060000Z/20260422T100000Z&details=Весілля&location=Волинська+область","_blank");
+function playMusic(){
+document.getElementById("music").play();
 }
 
-/* Серця */
-setInterval(()=>{
-const heart=document.createElement("div");
-heart.className="heart";
-heart.innerHTML="❤";
-heart.style.left=Math.random()*100+"vw";
-heart.style.fontSize=(Math.random()*20+15)+"px";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),6000);
-},500);
+const sections=document.querySelectorAll("section");
+
+window.addEventListener("scroll",()=>{
+sections.forEach(sec=>{
+const top=sec.getBoundingClientRect().top;
+if(top<window.innerHeight-100){
+sec.classList.add("show");
+}
+});
+});
 </script>
 
 </body>
