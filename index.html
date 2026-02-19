@@ -4,227 +4,196 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Руслан та Крістіна</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 body{
 margin:0;
+background:#000;
 font-family:'Playfair Display',serif;
-background:linear-gradient(135deg,#ffffff,#ffe6e6,#ffcccc);
+color:#d4af37;
 text-align:center;
-color:#8b0000;
 overflow-x:hidden;
 }
 
-/* ---------- 3D КОНВЕРТ ---------- */
-.envelope-screen{
+/* ---------- CONVERT ---------- */
+#envelope{
 position:fixed;
 width:100%;
-height:100%;
-background:white;
+height:100vh;
+background:#000;
 display:flex;
+flex-direction:column;
 justify-content:center;
 align-items:center;
-flex-direction:column;
-z-index:9999;
-perspective:1000px;
-}
-
-.envelope{
-position:relative;
-width:260px;
-height:170px;
-background:#b30000;
-border-radius:10px;
-cursor:pointer;
-transform-style:preserve-3d;
+z-index:999;
 }
 
 .flap{
-position:absolute;
-width:100%;
-height:85px;
-background:#ff4d4d;
-top:0;
-left:0;
-transform-origin:top;
-transition:1s;
+width:200px;
+height:120px;
+background:linear-gradient(45deg,#d4af37,#8c6b1f);
 clip-path:polygon(0 0,100% 0,50% 100%);
-}
-
-.heart-center{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:45px;
-color:white;
+transform-origin:top;
+transition:1.2s ease;
 }
 
 .open .flap{
-transform:rotateX(-180deg);
-}
-
-.section{ padding:60px 20px; }
-
-.hidden{ display:none; opacity:0; }
-.show{ display:block; animation:fadeUp 1.5s forwards; }
-
-@keyframes fadeUp{
-from{opacity:0; transform:translateY(50px);}
-to{opacity:1; transform:translateY(0);}
-}
-
-/* ---------- ОБРУЧКИ ---------- */
-.rings{
-font-size:40px;
-margin-bottom:10px;
-display:flex;
-justify-content:center;
-gap:40px;
-}
-
-.ring{
-animation:merge 2s ease forwards;
-}
-
-@keyframes merge{
-0%{transform:translateX(-40px);}
-100%{transform:translateX(0);}
-}
-
-/* ---------- ГАЛЕРЕЯ ---------- */
-.gallery{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-gap:15px;
-padding:20px;
-}
-
-.gallery img, .child-photos img{
-width:100%;
-border-radius:20px;
-box-shadow:0 0 15px gold;
-opacity:0;
-transform:translateY(40px);
-transition:1s;
-}
-
-.child-photos{
-display:flex;
-justify-content:center;
-gap:40px;
-}
-
-.child-photos img:first-child{ margin-top:-20px; }
-.child-photos img:last-child{ margin-top:20px; }
-
-.visible{
-opacity:1 !important;
-transform:translateY(0) !important;
+transform:rotateX(180deg);
 }
 
 button{
-padding:12px 25px;
-margin:10px;
+padding:14px 28px;
 border:none;
 border-radius:30px;
-background:#b30000;
-color:white;
+background:linear-gradient(45deg,#d4af37,#a67c00);
+color:#000;
 font-weight:bold;
+margin-top:20px;
 cursor:pointer;
 }
 
-.map{
-width:100%;
-height:300px;
-border-radius:20px;
-margin-top:15px;
+/* ---------- GOLD SHINE ---------- */
+.gold{
+font-size:42px;
+background:linear-gradient(90deg,#d4af37,#fff8dc,#d4af37);
+background-size:200% auto;
+color:transparent;
+background-clip:text;
+-webkit-background-clip:text;
+animation:shine 4s linear infinite;
 }
 
-#countdown{
-font-size:20px;
-margin-top:10px;
+@keyframes shine{
+to{background-position:200% center;}
 }
 
-/* ---------- МОДАЛЬНЕ ВІКНО ---------- */
-.modal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.6);
-display:none;
+/* ---------- RINGS ---------- */
+.rings{
+font-size:40px;
+animation:ringFloat 3s ease-in-out infinite;
+}
+
+@keyframes ringFloat{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-10px);}
+}
+
+/* ---------- SECTIONS ---------- */
+.section{
+opacity:0;
+transform:translateY(50px);
+transition:1.2s ease;
+padding:40px 20px;
+}
+
+.section.show{
+opacity:1;
+transform:translateY(0);
+}
+
+.photos{
+display:flex;
+flex-wrap:wrap;
 justify-content:center;
-align-items:center;
+gap:20px;
 }
 
-.modal-content{
-background:white;
-padding:30px;
+.photos img{
+width:260px;
 border-radius:20px;
-max-width:400px;
-width:90%;
+box-shadow:0 0 30px rgba(212,175,55,0.8);
 }
 
-/* ---------- СЕРДЕЧКА ---------- */
+/* ---------- TIMER ---------- */
+#countdown{
+font-size:22px;
+margin-top:20px;
+color:#fff;
+}
+
+/* ---------- RSVP ---------- */
+input, select{
+padding:10px;
+border-radius:10px;
+border:none;
+margin:5px;
+}
+
+.guest-list{
+margin-top:20px;
+color:#fff;
+}
+
+/* ---------- HEARTS ---------- */
 .heart{
 position:fixed;
-color:red;
-font-size:20px;
-animation:fall 5s linear infinite;
+top:-10px;
+color:#d4af37;
+animation:fall 5s linear forwards;
 }
 
 @keyframes fall{
-0%{top:-10px;opacity:1;}
-100%{top:100%;opacity:0;}
+to{transform:translateY(110vh);opacity:0;}
+}
+
+/* ---------- GOLD DUST ---------- */
+.spark{
+position:fixed;
+width:4px;
+height:4px;
+background:#d4af37;
+border-radius:50%;
+opacity:0.8;
+animation:sparkFall 4s linear forwards;
+}
+
+@keyframes sparkFall{
+to{transform:translateY(110vh);opacity:0;}
+}
+
+iframe{
+width:90%;
+height:250px;
+border-radius:20px;
+margin:15px 0;
 }
 </style>
 </head>
 
 <body>
 
-<div class="envelope-screen" id="envelopeScreen">
-<div class="envelope" onclick="openEnvelope()">
+<!-- ENVELOPE -->
+<div id="envelope">
 <div class="flap"></div>
-<div class="heart-center">❤</div>
-</div>
-<p>Натисніть щоб відкрити запрошення</p>
-</div>
-
+<button onclick="openEnvelope()">Увімкнути музику</button>
 <audio id="music" src="music.mp3"></audio>
+<p id="scrollText" style="display:none;color:#fff;margin-top:20px;">Гортайте вниз ↓</p>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="mainContent" style="display:none;">
 
 <div class="section">
-<div class="rings">
-<span class="ring">💍</span>
-<span class="ring">💍</span>
-</div>
-<h1 style="background:linear-gradient(45deg,gold,#ffd700);-webkit-background-clip:text;color:transparent;">
-Руслан та Крістіна
-</h1>
-<div>22 квітня 2026</div>
-<button onclick="playMusic()">Увімкнути музику</button>
-<button onclick="addToCalendar()">Додати в календар</button>
-<p id="scrollText"></p>
+<div class="rings">💍 💍</div>
+<h1 class="gold">Руслан та Крістіна</h1>
+<p>22 квітня 2026</p>
 <div id="countdown"></div>
+<button onclick="addToCalendar()">Додати в календар</button>
 </div>
 
 <div class="section">
-<div class="child-photos">
-<img src="boy.jpg">
-<img src="girl.jpg">
+<div class="photos">
+<img src="boy.jpg" style="margin-top:-20px;">
+<img src="girl.jpg" style="margin-top:20px;">
 </div>
-<p>
+<p style="color:#ccc;max-width:800px;margin:20px auto;">
 Нажаль ,ці двоє малюків вже давно виросли , пройшли частину свого життя ,набили свої гулі ,і готові створювати свою сім'ю ,вони чекають на цей урочистий і важливий день ,і з пошаною очікують на вас ❤️ ❤️
 </p>
 </div>
 
-<div id="afterMusic" class="hidden">
-
 <div class="section">
-<h2>Наші моменти</h2>
-<div class="gallery">
+<div class="photos">
 <img src="together1.jpg">
 <img src="together2.jpg">
 <img src="love1.jpg">
@@ -233,120 +202,119 @@ animation:fall 5s linear infinite;
 </div>
 
 <div class="section">
-<h2>Місце проведення</h2>
-<p><b>09:00 — Церемонія</b></p>
-<p>Забужжя, Волинська область</p>
-<iframe class="map" src="https://maps.google.com/maps?q=Забужжя%20Волинська%20область&output=embed"></iframe>
-
-<p><b>Застілля</b></p>
-<p>Голядин, Волинська область</p>
-<iframe class="map" src="https://maps.google.com/maps?q=Голядин%20Волинська%20область&output=embed"></iframe>
+<h2>Інформація</h2>
+<p>📅 22 квітня 2026</p>
+<p>⏰ 09:00</p>
+<p>💒 Церемонія — Забужжя, Волинська область</p>
+<iframe src="https://maps.google.com/maps?q=Забужжя%20Волинська%20область&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+<p>🥂 Застілля — Голядин, Волинська область</p>
+<iframe src="https://maps.google.com/maps?q=Голядин%20Волинська%20область&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
 </div>
 
 <div class="section">
 <h2>Підтвердження</h2>
-<input type="text" id="name" placeholder="Ваше ім'я"><br>
+<input id="name" placeholder="Ваше ім'я">
 <select id="status">
 <option>Буду</option>
 <option>Дуже хочу бути, але не зможу</option>
 <option>Не буду</option>
-</select><br>
+</select>
 <button onclick="saveGuest()">Підтвердити</button>
-<button onclick="showGuests()">Переглянути гостей</button>
+<div class="guest-list" id="guestList"></div>
 </div>
 
-</div>
-
-<div class="modal" id="guestModal">
-<div class="modal-content">
-<h3>Список гостей</h3>
-<div id="guestList"></div>
-<button onclick="closeGuests()">Закрити</button>
-</div>
 </div>
 
 <script>
+
+/* ENVELOPE */
 function openEnvelope(){
-document.getElementById("envelopeScreen").classList.add("open");
-setTimeout(()=>{document.getElementById("envelopeScreen").style.display="none";},1000);
-}
-
-function playMusic(){
+document.getElementById("envelope").classList.add("open");
 document.getElementById("music").play();
-document.getElementById("scrollText").innerText="Гортайте вниз ↓";
-setTimeout(()=>{
-document.getElementById("afterMusic").classList.remove("hidden");
-document.getElementById("afterMusic").classList.add("show");
-},1000);
+document.getElementById("scrollText").style.display="block";
+
+window.addEventListener("scroll",()=>{
+document.getElementById("mainContent").style.display="block";
+document.getElementById("envelope").style.display="none";
+});
 }
 
-var weddingDate=new Date("April 22, 2026 09:00:00").getTime();
+/* TIMER */
+const targetDate = new Date("April 22, 2026 09:00:00").getTime();
 setInterval(()=>{
-var now=new Date().getTime();
-var distance=weddingDate-now;
-var d=Math.floor(distance/(1000*60*60*24));
-var h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-var m=Math.floor((distance%(1000*60*60))/(1000*60));
-var s=Math.floor((distance%(1000*60))/1000);
+const now=new Date().getTime();
+const dist=targetDate-now;
+const d=Math.floor(dist/(1000*60*60*24));
+const h=Math.floor((dist%(1000*60*60*24))/(1000*60*60));
+const m=Math.floor((dist%(1000*60*60))/(1000*60));
+const s=Math.floor((dist%(1000*60))/1000);
 document.getElementById("countdown").innerHTML=
 d+" днів "+h+" год "+m+" хв "+s+" сек";
 },1000);
 
+/* SCROLL ANIMATION */
+const sections=document.querySelectorAll(".section");
+window.addEventListener("scroll",()=>{
+sections.forEach(sec=>{
+if(sec.getBoundingClientRect().top<window.innerHeight-100){
+sec.classList.add("show");
+}
+});
+});
+
+/* HEARTS */
+setInterval(()=>{
+const heart=document.createElement("div");
+heart.classList.add("heart");
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(Math.random()*20+15)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),5000);
+},500);
+
+/* GOLD DUST */
+setInterval(()=>{
+const spark=document.createElement("div");
+spark.classList.add("spark");
+spark.style.left=Math.random()*100+"vw";
+document.body.appendChild(spark);
+setTimeout(()=>spark.remove(),4000);
+},300);
+
+/* RSVP */
 function saveGuest(){
-var name=document.getElementById("name").value;
-var status=document.getElementById("status").value;
-var guests=JSON.parse(localStorage.getItem("guests"))||[];
-guests.push(name+" - "+status);
+const name=document.getElementById("name").value;
+const status=document.getElementById("status").value;
+if(!name) return;
+
+let guests=JSON.parse(localStorage.getItem("guests"))||[];
+guests.push({name,status});
 localStorage.setItem("guests",JSON.stringify(guests));
-alert("Дякуємо ❤️");
+displayGuests();
 }
 
-function showGuests(){
-var guests=JSON.parse(localStorage.getItem("guests"))||[];
-document.getElementById("guestList").innerHTML=guests.join("<br>");
-document.getElementById("guestModal").style.display="flex";
+function displayGuests(){
+let guests=JSON.parse(localStorage.getItem("guests"))||[];
+let html="";
+guests.forEach(g=>{
+html+="<p>"+g.name+" — "+g.status+"</p>";
+});
+document.getElementById("guestList").innerHTML=html;
 }
+displayGuests();
 
-function closeGuests(){
-document.getElementById("guestModal").style.display="none";
-}
-
+/* CALENDAR */
 function addToCalendar(){
-const event=`BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-SUMMARY:Весілля Руслана та Крістіни
-DTSTART:20260422T090000
-DTEND:20260422T150000
-LOCATION:Волинська область
-DESCRIPTION:Весільна церемонія
-END:VEVENT
-END:VCALENDAR`;
-const blob=new Blob([event],{type:"text/calendar"});
+const ics=
+"BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20260422T090000\nDTEND:20260422T120000\nSUMMARY:Весілля Руслана та Крістіни\nEND:VEVENT\nEND:VCALENDAR";
+const blob=new Blob([ics],{type:"text/calendar"});
 const link=document.createElement("a");
 link.href=URL.createObjectURL(blob);
 link.download="wedding.ics";
 link.click();
 }
 
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-entry.target.classList.add("visible");
-}
-});
-});
-document.querySelectorAll("img").forEach(img=>observer.observe(img));
-
-setInterval(()=>{
-var heart=document.createElement("div");
-heart.className="heart";
-heart.style.left=Math.random()*100+"%";
-heart.innerHTML="❤";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),5000);
-},500);
 </script>
-
 </body>
 </html>
