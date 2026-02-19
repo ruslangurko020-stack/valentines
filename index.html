@@ -1,5 +1,401 @@
 
-function displayGuests(){
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Руслан & Крістіна</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+background:#000;
+color:#fff;
+font-family:'Playfair Display',serif;
+overflow-x:hidden;
+scroll-behavior:smooth;
+}
+
+/* ===== Luxury Background Stars ===== */
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+
+/* ===== Envelope ===== */
+#envelopeSection{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+perspective:1000px;
+}
+
+.envelope{
+width:260px;
+height:180px;
+position:relative;
+cursor:pointer;
+transform-style:preserve-3d;
+transition:1s;
+}
+
+.flap{
+position:absolute;
+width:100%;
+height:100%;
+background:linear-gradient(145deg,#111,#222);
+clip-path:polygon(0 0,100% 0,50% 60%);
+transform-origin:top;
+transition:1s;
+border:1px solid #333;
+}
+
+.body{
+position:absolute;
+bottom:0;
+width:100%;
+height:100%;
+background:linear-gradient(145deg,#111,#1a1a1a);
+border:1px solid #333;
+}
+
+.envelope.open .flap{
+transform:rotateX(-180deg);
+}
+
+#openText{
+margin-top:20px;
+color:gold;
+font-size:18px;
+}
+
+/* ===== Music Section ===== */
+#musicSection{
+display:none;
+text-align:center;
+padding:60px 20px;
+}
+
+button{
+background:linear-gradient(45deg,#c9a227,#ffd700);
+border:none;
+padding:15px 30px;
+font-size:18px;
+border-radius:30px;
+cursor:pointer;
+}
+
+#scrollText{
+margin-top:20px;
+opacity:0;
+transition:1s;
+}
+
+/* ===== Main Content ===== */
+#mainContent{
+opacity:0;
+transition:2s;
+padding:40px 20px;
+text-align:center;
+}
+
+.names{
+font-size:48px;
+background:linear-gradient(90deg,#c9a227,#fff,#c9a227);
+-webkit-background-clip:text;
+color:transparent;
+animation:shine 4s infinite linear;
+}
+
+@keyframes shine{
+0%{background-position:-200px}
+100%{background-position:200px}
+}
+
+.rings{
+width:120px;
+height:120px;
+margin:20px auto;
+position:relative;
+}
+
+.rings div{
+width:100px;
+height:100px;
+border:6px solid gold;
+border-radius:50%;
+position:absolute;
+animation:rotate 6s linear infinite;
+}
+
+.rings div:nth-child(2){
+left:40px;
+}
+
+@keyframes rotate{
+from{transform:rotateY(0deg)}
+to{transform:rotateY(360deg)}
+}
+
+.date{
+margin-top:20px;
+font-size:22px;
+color:#d4af37;
+}
+
+#timer{
+margin-top:10px;
+font-size:18px;
+}
+
+/* ===== Timeline ===== */
+.timeline{
+margin:60px 0;
+text-align:left;
+max-width:500px;
+margin-left:auto;
+margin-right:auto;
+}
+.timeline div{
+margin:15px 0;
+border-left:2px solid gold;
+padding-left:15px;
+}
+
+/* ===== Images ===== */
+.full{
+width:100%;
+display:block;
+}
+
+.photo{
+width:90%;
+margin:20px auto;
+border-radius:20px;
+box-shadow:0 0 25px rgba(212,175,55,0.7);
+opacity:0;
+transform:translateY(40px);
+transition:1s;
+}
+
+.photo.visible{
+opacity:1;
+transform:translateY(0);
+}
+
+/* ===== Hearts ===== */
+.heart{
+position:fixed;
+top:-20px;
+font-size:20px;
+color:gold;
+animation:fall 5s linear forwards;
+}
+
+@keyframes fall{
+to{
+transform:translateY(110vh);
+opacity:0;
+}
+}
+
+/* ===== Form ===== */
+form{
+margin-top:40px;
+}
+input,select{
+padding:10px;
+margin:10px;
+border-radius:10px;
+border:none;
+}
+#guestList{
+margin-top:20px;
+text-align:left;
+max-width:400px;
+margin-left:auto;
+margin-right:auto;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<!-- ENVELOPE -->
+<section id="envelopeSection">
+<div class="envelope" onclick="openEnvelope()">
+<div class="flap"></div>
+<div class="body"></div>
+</div>
+<div id="openText">Натисни що б відкрити</div>
+</section>
+
+<!-- MUSIC -->
+<section id="musicSection">
+<button onclick="startMusic()">Увімкнути музику</button>
+<div id="scrollText">Гортайте вниз ↓</div>
+</section>
+
+<!-- MAIN -->
+<section id="mainContent">
+
+<div class="rings">
+<div></div>
+<div></div>
+</div>
+
+<div class="names">Руслан</div>
+<div class="names">&</div>
+<div class="names">Крістіна</div>
+
+<div class="date">22 квітня 2026</div>
+<div id="timer"></div><div class="timeline">
+<div>2021 - познайомились в мережі</div>
+<div>2025 - зустрілись</div>
+<div>2025 - пропозиція</div>
+<div>2026 - весілля</div>
+</div>
+
+<img src="boy.jpg" class="full">
+<img src="girl.jpg" class="full">
+
+<p style="margin:20px">
+Нажаль ,ці двоє малюків вже давно виросли , пройшли частину свого життя ,набили свої гулі ,і готові створювати свою сім'ю ,вони чекають на цей урочистий і важливий день ,і з пошаною очікують на вас ❤️ ❤️
+</p>
+
+<img src="together1.jpg" class="photo">
+<img src="together2.jpg" class="photo">
+
+<h2 style="margin-top:40px;color:gold;">Інформація про весілля</h2>
+<p>22 квітня 2026</p>
+<p>Час повідомимо пізніше</p>
+<p>Церемонія — Забужжя, Волинська область</p>
+<p>Застілля — Голядин, Волинська область</p>
+
+<img src="GirlBoy.jpg" class="photo">
+
+<iframe src="https://www.google.com/maps?q=Волинська+область&output=embed"
+width="100%" height="300" style="border:0;margin-top:20px;border-radius:20px;"></iframe>
+
+<h3 style="margin-top:40px;color:gold;">Що нам подарувати:</h3>
+<p>Найкращий подарунок - ваша присутність❤️</p>
+
+<h3 style="margin-top:40px;">Підтвердження</h3>
+<form onsubmit="saveGuest(event)">
+<input type="text" id="name" placeholder="Фамілія сім'ї та Ім'я хто буде" required>
+<select id="status">
+<option>Буду</option>
+<option>Дуже хочу бути, але не зможу</option>
+<option>Не буду</option>
+</select>
+<button type="submit">Підтвердити</button>
+</form>
+
+<div id="guestList"></div>
+
+<button onclick="downloadICS()" style="margin-top:30px;">Додати в календар</button>
+
+</section>
+
+<audio id="music" src="music.mp3"></audio>
+
+<script>
+
+/* Envelope */
+function openEnvelope(){
+document.querySelector('.envelope').classList.add('open');
+setTimeout(()=>{
+document.getElementById('envelopeSection').style.display="none";
+document.getElementById('musicSection').style.display="block";
+},1000);
+}
+
+/* Music */
+function startMusic(){
+document.getElementById('music').play();
+document.getElementById('scrollText').style.opacity=1;
+document.getElementById('mainContent').style.opacity=1;
+}
+
+/* Timer */
+function updateTimer(){
+const wedding=new Date("April 22, 2026 00:00:00").getTime();
+const now=new Date().getTime();
+const diff=wedding-now;
+
+const d=Math.floor(diff/(1000*60*60*24));
+const h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+const m=Math.floor((diff%(1000*60*60))/(1000*60));
+const s=Math.floor((diff%(1000*60))/1000);
+
+document.getElementById("timer").innerHTML=
+⏳ ${d} днів ${h} год ${m} хв ${s} сек;
+
+}
+setInterval(updateTimer,1000);
+
+/* Scroll Animation */
+const photos=document.querySelectorAll('.photo');
+window.addEventListener('scroll',()=>{
+photos.forEach(photo=>{
+const pos=photo.getBoundingClientRect().top;
+if(pos<window.innerHeight-100){
+photo.classList.add('visible');
+}
+});
+});
+
+/* Hearts */
+setInterval(()=>{
+const heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),5000);
+},500);
+
+/* Stars */
+const canvas=document.getElementById("stars");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+let stars=[];
+for(let i=0;i<100;i++){
+stars.push({x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2});
+}
+function drawStars(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="gold";
+stars.forEach(s=>{
+ctx.beginPath();
+ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+ctx.fill();
+});
+requestAnimationFrame(drawStars);
+}
+drawStars();
+
+/* Guests */
+function saveGuest(e){
+e.preventDefault();
+const name=document.getElementById("name").value;
+const status=document.getElementById("status").value;
+let guests=JSON.parse(localStorage.getItem("guests"))||[];
+guests.push({name,status});
+localStorage.setItem("guests",JSON.stringify(guests));
+displayGuests();
+alert("Дякую за відповідь, до зустрічі 22 квітня 2026");
+}function displayGuests(){
 let guests=JSON.parse(localStorage.getItem("guests"))||[];
 const list=document.getElementById("guestList");
 list.innerHTML="<h4>Список гостей:</h4>";
