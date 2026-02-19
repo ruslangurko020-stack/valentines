@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -17,7 +18,6 @@ overflow-x:hidden;
 scroll-behavior:smooth;
 }
 
-/* ===== Luxury Background Stars ===== */
 canvas{
 position:fixed;
 top:0;
@@ -104,12 +104,19 @@ padding:40px 20px;
 text-align:center;
 }
 
+/* 🔥 Яскравіші імена */
 .names{
-font-size:48px;
-background:linear-gradient(90deg,#c9a227,#fff,#c9a227);
+font-size:52px;
+font-weight:800;
+background:linear-gradient(90deg,#ffd700,#fff8dc,#ffd700);
+background-size:200%;
 -webkit-background-clip:text;
 color:transparent;
-animation:shine 4s infinite linear;
+animation:shine 3s infinite linear;
+text-shadow:
+0 0 10px rgba(255,215,0,0.9),
+0 0 20px rgba(255,215,0,0.7),
+0 0 40px rgba(212,175,55,0.6);
 }
 
 @keyframes shine{
@@ -204,7 +211,6 @@ opacity:0;
 }
 }
 
-/* ===== Form ===== */
 form{
 margin-top:40px;
 }
@@ -228,7 +234,6 @@ margin-right:auto;
 
 <canvas id="stars"></canvas>
 
-<!-- ENVELOPE -->
 <section id="envelopeSection">
 <div class="envelope" onclick="openEnvelope()">
 <div class="flap"></div>
@@ -237,13 +242,11 @@ margin-right:auto;
 <div id="openText">Натисни що б відкрити</div>
 </section>
 
-<!-- MUSIC -->
 <section id="musicSection">
 <button onclick="startMusic()">Увімкнути музику</button>
 <div id="scrollText">Гортайте вниз ↓</div>
 </section>
 
-<!-- MAIN -->
 <section id="mainContent">
 
 <div class="rings">
@@ -278,13 +281,24 @@ margin-right:auto;
 <h2 style="margin-top:40px;color:gold;">Інформація про весілля</h2>
 <p>22 квітня 2026</p>
 <p>Час повідомимо пізніше</p>
-<p>Церемонія — Забужжя, Волинська область</p>
-<p>Застілля — Голядин, Волинська область</p>
+
+<h3 style="margin-top:40px;color:gold;">📍 Церемонія — Забужжя</h3>
+<iframe 
+src="https://www.google.com/maps?q=Забужжя+Волинська+область&output=embed"
+width="100%" height="300"
+style="border:0;margin-top:15px;border-radius:20px;box-shadow:0 0 20px rgba(212,175,55,0.6);"
+allowfullscreen>
+</iframe>
+
+<h3 style="margin-top:40px;color:gold;">🥂 Застілля — Голядин</h3>
+<iframe 
+src="https://www.google.com/maps?q=Голядин+Волинська+область&output=embed"
+width="100%" height="300"
+style="border:0;margin-top:15px;border-radius:20px;box-shadow:0 0 20px rgba(212,175,55,0.6);"
+allowfullscreen>
+</iframe>
 
 <img src="GirlBoy.jpg" class="photo">
-
-<iframe src="https://www.google.com/maps?q=Волинська+область&output=embed"
-width="100%" height="300" style="border:0;margin-top:20px;border-radius:20px;"></iframe>
 
 <h3 style="margin-top:40px;color:gold;">Що нам подарувати:</h3>
 <p>Найкращий подарунок - ваша присутність❤️</p>
@@ -301,7 +315,6 @@ width="100%" height="300" style="border:0;margin-top:20px;border-radius:20px;"><
 </form>
 
 <div id="guestList"></div>
-
 <button onclick="downloadICS()" style="margin-top:30px;">Додати в календар</button>
 
 </section>
@@ -309,8 +322,6 @@ width="100%" height="300" style="border:0;margin-top:20px;border-radius:20px;"><
 <audio id="music" src="music.mp3"></audio>
 
 <script>
-
-/* Envelope */
 function openEnvelope(){
 document.querySelector('.envelope').classList.add('open');
 setTimeout(()=>{
@@ -319,14 +330,12 @@ document.getElementById('musicSection').style.display="block";
 },1000);
 }
 
-/* Music */
 function startMusic(){
 document.getElementById('music').play();
 document.getElementById('scrollText').style.opacity=1;
 document.getElementById('mainContent').style.opacity=1;
 }
 
-/* Timer */
 function updateTimer(){
 const wedding=new Date("April 22, 2026 00:00:00").getTime();
 const now=new Date().getTime();
@@ -339,11 +348,9 @@ const s=Math.floor((diff%(1000*60))/1000);
 
 document.getElementById("timer").innerHTML=
 `⏳ ${d} днів ${h} год ${m} хв ${s} сек`;
-
 }
 setInterval(updateTimer,1000);
 
-/* Scroll Animation */
 const photos=document.querySelectorAll('.photo');
 window.addEventListener('scroll',()=>{
 photos.forEach(photo=>{
@@ -354,7 +361,6 @@ photo.classList.add('visible');
 });
 });
 
-/* Hearts */
 setInterval(()=>{
 const heart=document.createElement("div");
 heart.className="heart";
@@ -364,16 +370,13 @@ document.body.appendChild(heart);
 setTimeout(()=>heart.remove(),5000);
 },500);
 
-/* Stars */
 const canvas=document.getElementById("stars");
 const ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 let stars=[];
 for(let i=0;i<100;i++){
-stars.push({x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*2});
+stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2});
 }
 function drawStars(){
 ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -387,7 +390,6 @@ requestAnimationFrame(drawStars);
 }
 drawStars();
 
-/* Guests */
 function saveGuest(e){
 e.preventDefault();
 const name=document.getElementById("name").value;
@@ -409,7 +411,6 @@ list.innerHTML+=`<p>${g.name} - ${g.status}</p>`;
 }
 displayGuests();
 
-/* Calendar */
 function downloadICS(){
 const ics=`BEGIN:VCALENDAR
 VERSION:2.0
