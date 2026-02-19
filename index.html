@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -16,8 +17,8 @@ text-align:center;
 overflow-x:hidden;
 }
 
-/* ---------- CONVERT ---------- */
-#envelope{
+/* ================= ENVELOPE ================= */
+#envelopeScreen{
 position:fixed;
 width:100%;
 height:100vh;
@@ -26,13 +27,21 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-z-index:999;
+z-index:1000;
+}
+
+.envelope{
+position:relative;
+width:220px;
+height:140px;
+background:linear-gradient(45deg,#d4af37,#8c6b1f);
 }
 
 .flap{
-width:200px;
-height:120px;
-background:linear-gradient(45deg,#d4af37,#8c6b1f);
+position:absolute;
+width:100%;
+height:100%;
+background:linear-gradient(45deg,#e6c65c,#a67c00);
 clip-path:polygon(0 0,100% 0,50% 100%);
 transform-origin:top;
 transition:1.2s ease;
@@ -42,18 +51,27 @@ transition:1.2s ease;
 transform:rotateX(180deg);
 }
 
+#musicScreen{
+display:none;
+margin-top:30px;
+}
+
 button{
-padding:14px 28px;
+padding:14px 30px;
 border:none;
 border-radius:30px;
 background:linear-gradient(45deg,#d4af37,#a67c00);
-color:#000;
 font-weight:bold;
-margin-top:20px;
 cursor:pointer;
 }
 
-/* ---------- GOLD SHINE ---------- */
+#scrollText{
+display:none;
+margin-top:20px;
+color:#fff;
+}
+
+/* ================= GOLD TITLE ================= */
 .gold{
 font-size:42px;
 background:linear-gradient(90deg,#d4af37,#fff8dc,#d4af37);
@@ -68,7 +86,6 @@ animation:shine 4s linear infinite;
 to{background-position:200% center;}
 }
 
-/* ---------- RINGS ---------- */
 .rings{
 font-size:40px;
 animation:ringFloat 3s ease-in-out infinite;
@@ -76,15 +93,15 @@ animation:ringFloat 3s ease-in-out infinite;
 
 @keyframes ringFloat{
 0%,100%{transform:translateY(0);}
-50%{transform:translateY(-10px);}
+50%{transform:translateY(-12px);}
 }
 
-/* ---------- SECTIONS ---------- */
+/* ================= SECTIONS ================= */
 .section{
 opacity:0;
-transform:translateY(50px);
+transform:translateY(60px);
 transition:1.2s ease;
-padding:40px 20px;
+padding:60px 20px;
 }
 
 .section.show{
@@ -105,15 +122,15 @@ border-radius:20px;
 box-shadow:0 0 30px rgba(212,175,55,0.8);
 }
 
-/* ---------- TIMER ---------- */
+/* ================= TIMER ================= */
 #countdown{
 font-size:22px;
-margin-top:20px;
 color:#fff;
+margin-top:15px;
 }
 
-/* ---------- RSVP ---------- */
-input, select{
+/* ================= RSVP ================= */
+input,select{
 padding:10px;
 border-radius:10px;
 border:none;
@@ -121,11 +138,11 @@ margin:5px;
 }
 
 .guest-list{
-margin-top:20px;
+margin-top:15px;
 color:#fff;
 }
 
-/* ---------- HEARTS ---------- */
+/* ================= HEARTS ================= */
 .heart{
 position:fixed;
 top:-10px;
@@ -137,7 +154,7 @@ animation:fall 5s linear forwards;
 to{transform:translateY(110vh);opacity:0;}
 }
 
-/* ---------- GOLD DUST ---------- */
+/* ================= GOLD DUST ================= */
 .spark{
 position:fixed;
 width:4px;
@@ -164,11 +181,19 @@ margin:15px 0;
 <body>
 
 <!-- ENVELOPE -->
-<div id="envelope">
+<div id="envelopeScreen">
+<div class="envelope">
 <div class="flap"></div>
-<button onclick="openEnvelope()">Увімкнути музику</button>
+</div>
+<br>
+<button onclick="openEnvelope()">Відкрити запрошення</button>
+
+<div id="musicScreen">
+<button onclick="playMusic()">Увімкнути музику</button>
+<p id="scrollText">Гортайте вниз ↓</p>
+</div>
+
 <audio id="music" src="music.mp3"></audio>
-<p id="scrollText" style="display:none;color:#fff;margin-top:20px;">Гортайте вниз ↓</p>
 </div>
 
 <!-- MAIN CONTENT -->
@@ -206,9 +231,9 @@ margin:15px 0;
 <p>📅 22 квітня 2026</p>
 <p>⏰ 09:00</p>
 <p>💒 Церемонія — Забужжя, Волинська область</p>
-<iframe src="https://maps.google.com/maps?q=Забужжя%20Волинська%20область&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+<iframe src="https://maps.google.com/maps?q=Забужжя%20Волинська%20область&t=&z=13&output=embed"></iframe>
 <p>🥂 Застілля — Голядин, Волинська область</p>
-<iframe src="https://maps.google.com/maps?q=Голядин%20Волинська%20область&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+<iframe src="https://maps.google.com/maps?q=Голядин%20Волинська%20область&t=&z=13&output=embed"></iframe>
 </div>
 
 <div class="section">
@@ -227,20 +252,26 @@ margin:15px 0;
 
 <script>
 
-/* ENVELOPE */
+/* CONVERT */
 function openEnvelope(){
-document.getElementById("envelope").classList.add("open");
+document.querySelector(".envelope").classList.add("open");
+setTimeout(()=>{
+document.getElementById("musicScreen").style.display="block";
+},1000);
+}
+
+function playMusic(){
 document.getElementById("music").play();
 document.getElementById("scrollText").style.display="block";
 
 window.addEventListener("scroll",()=>{
 document.getElementById("mainContent").style.display="block";
-document.getElementById("envelope").style.display="none";
+document.getElementById("envelopeScreen").style.display="none";
 });
 }
 
 /* TIMER */
-const targetDate = new Date("April 22, 2026 09:00:00").getTime();
+const targetDate=new Date("April 22, 2026 09:00:00").getTime();
 setInterval(()=>{
 const now=new Date().getTime();
 const dist=targetDate-now;
@@ -286,7 +317,7 @@ setTimeout(()=>spark.remove(),4000);
 function saveGuest(){
 const name=document.getElementById("name").value;
 const status=document.getElementById("status").value;
-if(!name) return;
+if(!name)return;
 
 let guests=JSON.parse(localStorage.getItem("guests"))||[];
 guests.push({name,status});
@@ -306,8 +337,7 @@ displayGuests();
 
 /* CALENDAR */
 function addToCalendar(){
-const ics=
-"BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20260422T090000\nDTEND:20260422T120000\nSUMMARY:Весілля Руслана та Крістіни\nEND:VEVENT\nEND:VCALENDAR";
+const ics="BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20260422T090000\nDTEND:20260422T120000\nSUMMARY:Весілля Руслана та Крістіни\nEND:VEVENT\nEND:VCALENDAR";
 const blob=new Blob([ics],{type:"text/calendar"});
 const link=document.createElement("a");
 link.href=URL.createObjectURL(blob);
