@@ -1,439 +1,432 @@
 
-
 <!DOCTYPE html>
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Руслан & Крістіна</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box}
 body{
-margin:0;
-font-family:'Cinzel',serif;
 background:#000;
-color:white;
+color:#fff;
+font-family:'Playfair Display',serif;
 overflow-x:hidden;
 scroll-behavior:smooth;
 }
 
-/* ===== PARALLAX STARS ===== */
-.stars{
+/* ===== Luxury Background Stars ===== */
+canvas{
 position:fixed;
-width:100%;
-height:100%;
-background:radial-gradient(white 1px, transparent 1px);
-background-size:3px 3px;
-opacity:0.08;
-animation:starsMove 60s linear infinite;
-pointer-events:none;
+top:0;
+left:0;
 z-index:-1;
 }
-@keyframes starsMove{
-from{background-position:0 0}
-to{background-position:0 2000px}
-}
 
-/* GOLD DUST */
-body::after{
-content:"";
-position:fixed;
-width:100%;
-height:100%;
-background-image:radial-gradient(gold 1px,transparent 1px);
-background-size:4px 4px;
-opacity:0.05;
-animation:dust 25s linear infinite;
-pointer-events:none;
-}
-@keyframes dust{
-from{background-position:0 0}
-to{background-position:0 1500px}
-}
-
-/* ENVELOPE */
-#envelope{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:320px;
-height:220px;
-background:#111;
-border:2px solid gold;
+/* ===== Envelope ===== */
+#envelopeSection{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 perspective:1000px;
-cursor:pointer;
-text-align:center;
-z-index:1000;
 }
+
+.envelope{
+width:260px;
+height:180px;
+position:relative;
+cursor:pointer;
+transform-style:preserve-3d;
+transition:1s;
+}
+
 .flap{
 position:absolute;
 width:100%;
 height:100%;
-background:#222;
-clip-path:polygon(0 0,100% 0,50% 50%);
+background:linear-gradient(145deg,#111,#222);
+clip-path:polygon(0 0,100% 0,50% 60%);
 transform-origin:top;
-transition:1.5s;
+transition:1s;
+border:1px solid #333;
 }
-.open .flap{
-transform:rotateX(180deg);
-}
-#openText{
+
+.body{
 position:absolute;
-bottom:-40px;
+bottom:0;
 width:100%;
+height:100%;
+background:linear-gradient(145deg,#111,#1a1a1a);
+border:1px solid #333;
+}
+
+.envelope.open .flap{
+transform:rotateX(-180deg);
+}
+
+#openText{
+margin-top:20px;
 color:gold;
 font-size:18px;
 }
 
-/* SECTION */
-section{
-padding:60px 20px;
+/* ===== Music Section ===== */
+#musicSection{
+display:none;
 text-align:center;
-opacity:0;
-transform:translateY(40px);
-transition:1.5s ease;
-}
-.show{
-opacity:1;
-transform:translateY(0);
+padding:60px 20px;
 }
 
-/* BUTTON */
 button{
-padding:15px 35px;
-background:linear-gradient(45deg,#b8860b,#ffd700);
+background:linear-gradient(45deg,#c9a227,#ffd700);
 border:none;
+padding:15px 30px;
+font-size:18px;
 border-radius:30px;
-font-weight:bold;
 cursor:pointer;
 }
 
-/* NAMES */
+#scrollText{
+margin-top:20px;
+opacity:0;
+transition:1s;
+}
+
+/* ===== Main Content ===== */
+#mainContent{
+opacity:0;
+transition:2s;
+padding:40px 20px;
+text-align:center;
+}
+
 .names{
-font-size:60px;
-font-weight:900;
-background:linear-gradient(90deg,#ffd700,#fff,#ffd700);
-background-size:200%;
+font-size:48px;
+background:linear-gradient(90deg,#c9a227,#fff,#c9a227);
 -webkit-background-clip:text;
 color:transparent;
-animation:shine 3s linear infinite;
+animation:shine 4s infinite linear;
+}
+
+@keyframes shine{
+0%{background-position:-200px}
+100%{background-position:200px}
+}
+
+.rings{
+width:120px;
+height:120px;
+margin:20px auto;
 position:relative;
 }
-@keyframes shine{
-0%{background-position:-200%}
-100%{background-position:200%}
-}
 
-/* LASER */
-.names::after{
-content:"";
+.rings div{
+width:100px;
+height:100px;
+border:6px solid gold;
+border-radius:50%;
 position:absolute;
-top:50%;
-left:-100%;
-width:200%;
-height:2px;
-background:linear-gradient(to right,transparent,gold,transparent);
-animation:laser 4s infinite;
-}
-@keyframes laser{
-0%{left:-100%}
-100%{left:100%}
+animation:rotate 6s linear infinite;
 }
 
-/* IMAGES */
-.full-img{
+.rings div:nth-child(2){
+left:40px;
+}
+
+@keyframes rotate{
+from{transform:rotateY(0deg)}
+to{transform:rotateY(360deg)}
+}
+
+.date{
+margin-top:20px;
+font-size:22px;
+color:#d4af37;
+}
+
+#timer{
+margin-top:10px;
+font-size:18px;
+}
+
+/* ===== Timeline ===== */
+.timeline{
+margin:60px 0;
+text-align:left;
+max-width:500px;
+margin-left:auto;
+margin-right:auto;
+}
+.timeline div{
+margin:15px 0;
+border-left:2px solid gold;
+padding-left:15px;
+}
+
+/* ===== Images ===== */
+.full{
 width:100%;
 display:block;
+}
+
+.photo{
+width:90%;
+margin:20px auto;
+border-radius:20px;
+box-shadow:0 0 25px rgba(212,175,55,0.7);
 opacity:0;
 transform:translateY(40px);
-transition:1.5s;
+transition:1s;
 }
-.full-img.show{
+
+.photo.visible{
 opacity:1;
 transform:translateY(0);
 }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-}
-.grid img{
-width:100%;
-border-radius:20px;
-box-shadow:0 0 25px gold;
-opacity:0;
-transform:scale(0.9);
-transition:1.5s;
-}
-.grid img.show{
-opacity:1;
-transform:scale(1);
-}
-
-/* HEARTS */
+/* ===== Hearts ===== */
 .heart{
 position:fixed;
-top:-10px;
+top:-20px;
+font-size:20px;
 color:gold;
 animation:fall 5s linear forwards;
 }
+
 @keyframes fall{
-to{transform:translateY(110vh)}
+to{
+transform:translateY(110vh);
+opacity:0;
+}
 }
 
-/* THANK YOU */
-#thanks{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:black;
-color:gold;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:40px;
-display:none;
-z-index:2000;
+/* ===== Form ===== */
+form{
+margin-top:40px;
 }
-
-.timer{
-font-size:24px;
+input,select{
+padding:10px;
+margin:10px;
+border-radius:10px;
+border:none;
+}
+#guestList{
 margin-top:20px;
-}
-
-.timeline{
-margin:40px 0;
-}
-.timeline div{
-margin:10px 0;
-color:gold;
-}
-
-.like{
-font-size:28px;
-cursor:pointer;
+text-align:left;
+max-width:400px;
+margin-left:auto;
+margin-right:auto;
 }
 </style>
 </head>
 
 <body>
 
-<div class="stars"></div>
+<canvas id="stars"></canvas>
 
-<div id="envelope" onclick="openEnvelope()">
+<!-- ENVELOPE -->
+<section id="envelopeSection">
+<div class="envelope" onclick="openEnvelope()">
 <div class="flap"></div>
-<div id="openText">Натисни що б відкрити</div>
+<div class="body"></div>
 </div>
-
-<audio id="music" src="music.mp3"></audio>
-
-<section id="musicSection">
-<button onclick="startMusic()">Увімкнути музику</button>
-<p id="scrollText" style="display:none">Гортайте вниз ↓</p>
+<div id="openText">Натисни що б відкрити</div>
 </section>
 
-<section id="main">
+<!-- MUSIC -->
+<section id="musicSection">
+<button onclick="startMusic()">Увімкнути музику</button>
+<div id="scrollText">Гортайте вниз ↓</div>
+</section>
 
-<div id="ringsCanvas" style="height:200px;"></div>
+<!-- MAIN -->
+<section id="mainContent">
 
-<div class="names">Руслан</div>
-<div class="names">та</div>
-<div class="names">Крістіна</div>
-
-<p>📅 22 квітня 2026</p>
-<div class="timer" id="timer"></div>
-
-<div class="timeline">
-<h2>Наша історія</h2>
-<div>2021 — познайомились в мережі</div>
-<div>2025 — зустрілись</div>
-<div>2025 — пропозиція</div>
-<div>2026 — весілля</div>
+<div class="rings">
+<div></div>
+<div></div>
 </div>
 
-<h2>Дитячі фото</h2>
-<img src="boy.jpg" class="full-img">
-<img src="girl.jpg" class="full-img">
+<div class="names">Руслан</div>
+<div class="names">&</div>
+<div class="names">Крістіна</div>
 
-<p>
+<div class="date">22 квітня 2026</div>
+<div id="timer"></div>
+
+<div class="timeline">
+<div>2021 - познайомились в мережі</div>
+<div>2025 - зустрілись</div>
+<div>2025 - пропозиція</div>
+<div>2026 - весілля</div>
+</div>
+
+<img src="boy.jpg" class="full">
+<img src="girl.jpg" class="full">
+
+<p style="margin:20px">
 Нажаль ,ці двоє малюків вже давно виросли , пройшли частину свого життя ,набили свої гулі ,і готові створювати свою сім'ю ,вони чекають на цей урочистий і важливий день ,і з пошаною очікують на вас ❤️ ❤️
 </p>
 
-<h2>Наші спільні фото</h2>
-<div class="grid">
-<img src="together1.jpg">
-<img src="together2.jpg">
-</div>
+<img src="together1.jpg" class="photo">
+<img src="together2.jpg" class="photo">
 
-<h2>Інформація</h2>
-<p>📅 22 квітня 2026</p>
+<h2 style="margin-top:40px;color:gold;">Інформація про весілля</h2>
+<p>22 квітня 2026</p>
 <p>Час повідомимо пізніше</p>
-<p>💒 Забужжя, Волинська область</p>
-<iframe src="https://www.google.com/maps?q=Забужжя,Волинська+область&output=embed" width="100%" height="250"></iframe>
-<p>🥂 Голядин, Волинська область</p>
-<iframe src="https://www.google.com/maps?q=Голядин,Волинська+область&output=embed" width="100%" height="250"></iframe>
+<p>Церемонія — Забужжя, Волинська область</p>
+<p>Застілля — Голядин, Волинська область</p>
 
-<img src="GirlBoy.jpg" class="full-img">
+<img src="GirlBoy.jpg" class="photo">
 
-<h2>Що нам подарувати</h2>
-<p>Найкращий подарунок — ваша присутність ❤️</p>
+<iframe src="https://www.google.com/maps?q=Волинська+область&output=embed"
+width="100%" height="300" style="border:0;margin-top:20px;border-radius:20px;"></iframe>
 
-<div>
-<span class="like" onclick="like()">❤️</span>
-<span id="likeCount">0</span>
-</div>
+<h3 style="margin-top:40px;color:gold;">Що нам подарувати:</h3>
+<p>Найкращий подарунок - ваша присутність❤️</p>
 
-<h2>Підтвердження</h2>
-<input id="name" placeholder="Фамілія сім'ї та Ім'я хто буде">
+<h3 style="margin-top:40px;">Підтвердження</h3>
+<form onsubmit="saveGuest(event)">
+<input type="text" id="name" placeholder="Фамілія сім'ї та Ім'я хто буде" required>
 <select id="status">
 <option>Буду</option>
-<option>Дуже хочу бути,але не зможу</option>
+<option>Дуже хочу бути, але не зможу</option>
 <option>Не буду</option>
 </select>
-<button onclick="saveGuest()">Підтвердити</button>
+<button type="submit">Підтвердити</button>
+</form>
 
-<ul id="guestList"></ul>
-<button onclick="downloadICS()">Додати в календар</button>
+<div id="guestList"></div>
+
+<button onclick="downloadICS()" style="margin-top:30px;">Додати в календар</button>
 
 </section>
 
-<div id="thanks">Дякую за відповідь, до зустрічі 22 квітня 2026 ❤️</div>
+<audio id="music" src="music.mp3"></audio>
 
 <script>
 
-/* ENVELOPE */
+/* Envelope */
 function openEnvelope(){
-document.getElementById("envelope").classList.add("open");
+document.querySelector('.envelope').classList.add('open');
 setTimeout(()=>{
-document.getElementById("envelope").style.display="none";
-document.getElementById("musicSection").classList.add("show");
-},1500);
+document.getElementById('envelopeSection').style.display="none";
+document.getElementById('musicSection').style.display="block";
+},1000);
 }
 
-/* MUSIC */
+/* Music */
 function startMusic(){
-document.getElementById("music").play();
-document.getElementById("scrollText").style.display="block";
-document.getElementById("main").classList.add("show");
+document.getElementById('music').play();
+document.getElementById('scrollText').style.opacity=1;
+document.getElementById('mainContent').style.opacity=1;
 }
 
-/* TIMER */
-const date=new Date("April 22, 2026 00:00:00").getTime();
-setInterval(()=>{
+/* Timer */
+function updateTimer(){
+const wedding=new Date("April 22, 2026 00:00:00").getTime();
 const now=new Date().getTime();
-const distance=date-now;
-const d=Math.floor(distance/(1000*60*60*24));
-const h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-const m=Math.floor((distance%(1000*60*60))/(1000*60));
-const s=Math.floor((distance%(1000*60))/1000);
+const diff=wedding-now;
+
+const d=Math.floor(diff/(1000*60*60*24));
+const h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+const m=Math.floor((diff%(1000*60*60))/(1000*60));
+const s=Math.floor((diff%(1000*60))/1000);
+
 document.getElementById("timer").innerHTML=
 `⏳ ${d} днів ${h} год ${m} хв ${s} сек`;
-},1000);
 
-/* SCROLL */
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting) entry.target.classList.add("show");
+}
+setInterval(updateTimer,1000);
+
+/* Scroll Animation */
+const photos=document.querySelectorAll('.photo');
+window.addEventListener('scroll',()=>{
+photos.forEach(photo=>{
+const pos=photo.getBoundingClientRect().top;
+if(pos<window.innerHeight-100){
+photo.classList.add('visible');
+}
 });
 });
-document.querySelectorAll(".full-img, .grid img").forEach(el=>observer.observe(el));
 
-/* HEARTS */
+/* Hearts */
 setInterval(()=>{
 const heart=document.createElement("div");
 heart.className="heart";
-heart.style.left=Math.random()*100+"vw";
 heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
 document.body.appendChild(heart);
 setTimeout(()=>heart.remove(),5000);
 },500);
 
-/* LIKE */
-let likes=localStorage.getItem("likes")||0;
-document.getElementById("likeCount").innerText=likes;
-function like(){
-likes++;
-localStorage.setItem("likes",likes);
-document.getElementById("likeCount").innerText=likes;
+/* Stars */
+const canvas=document.getElementById("stars");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+let stars=[];
+for(let i=0;i<100;i++){
+stars.push({x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2});
 }
+function drawStars(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="gold";
+stars.forEach(s=>{
+ctx.beginPath();
+ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+ctx.fill();
+});
+requestAnimationFrame(drawStars);
+}
+drawStars();
 
-/* SAVE GUEST */
-function saveGuest(){
+/* Guests */
+function saveGuest(e){
+e.preventDefault();
 const name=document.getElementById("name").value;
 const status=document.getElementById("status").value;
-if(!name)return;
 let guests=JSON.parse(localStorage.getItem("guests"))||[];
 guests.push({name,status});
 localStorage.setItem("guests",JSON.stringify(guests));
-loadGuests();
-document.getElementById("thanks").style.display="flex";
-setTimeout(()=>{document.getElementById("thanks").style.display="none"},3000);
+displayGuests();
+alert("Дякую за відповідь, до зустрічі 22 квітня 2026");
 }
-function loadGuests(){
+
+function displayGuests(){
 let guests=JSON.parse(localStorage.getItem("guests"))||[];
-let list=document.getElementById("guestList");
-list.innerHTML="";
+const list=document.getElementById("guestList");
+list.innerHTML="<h4>Список гостей:</h4>";
 guests.forEach(g=>{
-let li=document.createElement("li");
-li.textContent=g.name+" - "+g.status;
-list.appendChild(li);
+list.innerHTML+=`<p>${g.name} - ${g.status}</p>`;
 });
 }
-loadGuests();
+displayGuests();
 
-/* ICS */
+/* Calendar */
 function downloadICS(){
-const content=`BEGIN:VCALENDAR
+const ics=`BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
-DTSTART:20260422T120000
+DTSTART:20260422T090000
+DTEND:20260422T230000
 SUMMARY:Весілля Руслана та Крістіни
 END:VEVENT
 END:VCALENDAR`;
-const blob=new Blob([content],{type:"text/calendar"});
-const link=document.createElement("a");
+
+const blob=new Blob([ics],{type:'text/calendar'});
+const link=document.createElement('a');
 link.href=URL.createObjectURL(blob);
 link.download="wedding.ics";
 link.click();
 }
-
-/* 3D RINGS */
-const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(75,window.innerWidth/200,0.1,1000);
-const renderer=new THREE.WebGLRenderer({alpha:true});
-renderer.setSize(window.innerWidth,200);
-document.getElementById("ringsCanvas").appendChild(renderer.domElement);
-
-const geometry=new THREE.TorusGeometry(1,0.3,16,100);
-const material=new THREE.MeshStandardMaterial({color:0xffd700,metalness:1,roughness:0.2});
-const ring1=new THREE.Mesh(geometry,material);
-const ring2=new THREE.Mesh(geometry,material);
-ring1.position.x=-1.5;
-ring2.position.x=1.5;
-scene.add(ring1);
-scene.add(ring2);
-
-const light=new THREE.PointLight(0xffffff,1);
-light.position.set(5,5,5);
-scene.add(light);
-
-camera.position.z=5;
-
-function animate(){
-requestAnimationFrame(animate);
-ring1.rotation.y+=0.01;
-ring2.rotation.y-=0.01;
-renderer.render(scene,camera);
-}
-animate();
-
 </script>
+
 </body>
 </html>
