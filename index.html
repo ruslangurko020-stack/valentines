@@ -11,7 +11,7 @@
 body{
 margin:0;
 font-family:'Playfair Display',serif;
-background:black;
+background:linear-gradient(135deg,#1e3c72,#2a5298,#8e2de2);
 color:white;
 text-align:center;
 overflow-x:hidden;
@@ -23,6 +23,12 @@ background:linear-gradient(45deg,gold,white,gold);
 -webkit-background-clip:text;
 color:transparent;
 margin-top:40px;
+}
+
+.date-under{
+font-size:22px;
+margin-top:10px;
+color:gold;
 }
 
 .section{
@@ -64,7 +70,7 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:black;
+background:#000000dd;
 display:flex;
 flex-direction:column;
 justify-content:center;
@@ -98,6 +104,20 @@ transition:1s;
 transform:rotateX(180deg);
 }
 
+.map{
+width:100%;
+height:300px;
+border-radius:20px;
+margin-top:15px;
+}
+
+.text-block{
+max-width:800px;
+margin:20px auto;
+font-size:18px;
+line-height:1.6;
+}
+
 .heart{
 position:fixed;
 color:gold;
@@ -123,6 +143,7 @@ animation:fall 5s linear infinite;
 
 <div class="section">
 <h1>Руслан та Крістіна</h1>
+<div class="date-under">22 квітня 2026</div>
 <button onclick="playMusic()">Увімкнути музику</button>
 <p id="scrollText"></p>
 <div id="countdown"></div>
@@ -130,21 +151,43 @@ animation:fall 5s linear infinite;
 
 <div class="section">
 <h2>Наші фото</h2>
+
 <div class="gallery">
-<img src="boy.jpg">
-<img src="girl.jpg">
+<!-- перемішані фото -->
 <img src="together1.jpg">
+<img src="boy.jpg">
 <img src="together2.jpg">
+<img src="girl.jpg">
 </div>
+
+<div class="text-block">
+Нажаль, ці двоє малюків вже давно виросли, пройшли частину свого життя, набили свої гулі, і готові створювати свою сім'ю. Вони чекають на цей урочистий і важливий день, і з пошаною очікують на вас ❤️
+</div>
+
+<div class="gallery">
+<img src="love1.jpg">
+<img src="love2.jpg">
+</div>
+
 </div>
 
 <div class="section">
-<h2>22 квітня 2026</h2>
-<p>09:00</p>
-<p>Церемонія — Забужжя, Волинська область</p>
-<button onclick="window.open('https://www.google.com/maps/search/?api=1&query=Забужжя+Волинська+область')">Маршрут</button>
-<p>Застілля — Голядин, Волинська область</p>
-<button onclick="window.open('https://www.google.com/maps/search/?api=1&query=Голядин+Волинська+область')">Маршрут</button>
+<h2>Місце проведення</h2>
+
+<p><b>09:00 — Церемонія</b></p>
+<p>Забужжя, Волинська область</p>
+
+<iframe class="map"
+src="https://maps.google.com/maps?q=Забужжя%20Волинська%20область&t=&z=13&ie=UTF8&iwloc=&output=embed">
+</iframe>
+
+<p><b>Застілля</b></p>
+<p>Голядин, Волинська область</p>
+
+<iframe class="map"
+src="https://maps.google.com/maps?q=Голядин%20Волинська%20область&t=&z=13&ie=UTF8&iwloc=&output=embed">
+</iframe>
+
 </div>
 
 <div class="section">
