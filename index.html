@@ -272,15 +272,29 @@ style="border:0;margin-top:15px;border-radius:20px;box-shadow:0 0 20px rgba(212,
 allowfullscreen>  
 </iframe>  <img src="GirlBoy.jpg" class="photo">  <h3 style="margin-top:40px;color:gold;">Що нам подарувати:</h3>  
 <p>Найкращий подарунок - ваша присутність❤️</p>  <h3 style="margin-top:40px;">Підтвердження</h3>  
-<form onsubmit="saveGuest(event)">  
-<input type="text" id="name" placeholder="Фамілія сім'ї та Ім'я хто буде" required>  
-<select id="status">  
-<option>Буду</option>  
-<option>Дуже хочу бути, але не зможу</option>  
-<option>Не буду</option>  
-</select>  
-<button type="submit">Підтвердити</button>  
-</form>  <div id="guestList"></div>  
+<form action="https://docs.google.com/forms/d/e/1FAIpQLSfPZv4y6RNhwbGYfdWgT5j5Lv3HMpZiYI8iYidwtP2Vp-C3Hg/formResponse" 
+method="POST" 
+target="hidden_iframe"
+onsubmit="showThanks()">
+
+<input type="text" name="entry.361195247" placeholder="Ваше ім'я" required>
+
+<select name="entry.149482190" required>
+<option value="">Чи будете на весіллі?</option>
+<option value="Буду ❤️">Буду ❤️</option>
+<option value="Дуже хочу бути, але не зможу">Дуже хочу бути, але не зможу</option>
+<option value="Не буду">Не буду</option>
+</select>
+
+<button type="submit">Підтвердити</button>
+
+</form>
+
+<iframe name="hidden_iframe" style="display:none;"></iframe>
+
+<p id="thanksMessage" style="display:none; color:gold; margin-top:15px;">
+Дякуємо за відповідь ❤️
+</p>  <div id="guestList"></div>  
 <button onclick="downloadICS()" style="margin-top:30px;">Додати в календар</button>  </section>  <audio id="music" src="music.mp3"></audio>
 
 <script>  
@@ -391,3 +405,4 @@ link.click();
 }  
 </script>  </body>  
 </html>
+
