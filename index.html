@@ -274,7 +274,8 @@ allowfullscreen>
 <p>Найкращий подарунок - ваша присутність❤️</p>  <h3 style="margin-top:40px;">Підтвердження</h3>  
 <form action="https://docs.google.com/forms/d/e/1FAIpQLSfPZv4y6RNhwbGYfdWgT5j5Lv3HMpZiYI8iYidwtP2Vp-C3Hg/formResponse" 
 method="POST" 
-target="hidden_iframe">
+target="hidden_iframe"
+onsubmit="showThanks()">
 
 <input type="text" name="entry.361195247" placeholder="Ваше ім'я" required>
 
@@ -400,8 +401,112 @@ link.href=URL.createObjectURL(blob);
 link.download="wedding.ics";  
 link.click();  
 }  
-</script>  </body>  
+</script> <!-- THANK YOU SCREEN -->
+<div id="thankYouScreen" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(135deg,#0f0f0f,#1c1c1c);
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+z-index:9999;
+overflow:hidden;
+font-family:'Playfair Display',serif;
+color:white;
+">
+
+<div class="fog"></div>
+
+<div class="hearts" style="display:none;">
+<span>❤️</span>
+<span>❤️</span>
+<span>❤️</span>
+<span>❤️</span>
+<span>❤️</span>
+</div>
+
+<div style="position:relative; z-index:2;">
+<h1 id="thankTitle">Дякуємо за відповідь ❤️</h1>
+<p id="thankSub">Зустрінемось 22.04</p>
+</div>
+
+</div>
+
+<style>
+.fog{
+position:absolute;
+width:200%;
+height:200%;
+background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.05), transparent 60%),
+radial-gradient(circle at 70% 70%, rgba(255,255,255,0.05), transparent 60%);
+animation:fogMove 15s linear infinite;
+z-index:1;
+display:none;
+}
+@keyframes fogMove{
+0%{transform:translate(0,0)}
+50%{transform:translate(-5%,-5%)}
+100%{transform:translate(0,0)}
+}
+
+.hearts span{
+position:absolute;
+bottom:-50px;
+font-size:24px;
+animation:floatUp 6s linear infinite;
+opacity:0.7;
+}
+.hearts span:nth-child(1){left:20%}
+.hearts span:nth-child(2){left:40%}
+.hearts span:nth-child(3){left:60%}
+.hearts span:nth-child(4){left:80%}
+.hearts span:nth-child(5){left:50%}
+
+@keyframes floatUp{
+0%{transform:translateY(0);opacity:0}
+10%{opacity:0.8}
+100%{transform:translateY(-110vh);opacity:0}
+}
+
+.glow{
+color:#ffd700;
+text-shadow:0 0 10px #ffd700,0 0 20px #d4af37;
+}
+</style>
+
+<script>
+function showThanks(){
+const selectValue=document.querySelector('select[name="entry.149482190"]').value;
+const screen=document.getElementById("thankYouScreen");
+const title=document.getElementById("thankTitle");
+const subtitle=document.getElementById("thankSub");
+const hearts=document.querySelector(".hearts");
+const fog=document.querySelector(".fog");
+
+screen.style.display="flex";
+
+if(selectValue==="Буду ❤️"){
+title.innerHTML="Дякуємо за відповідь ❤️";
+subtitle.innerHTML="Зустрінемось 22.04";
+title.classList.add("glow");
+hearts.style.display="block";
+fog.style.display="none";
+}else{
+title.innerHTML="Дуже прикро 😔";
+subtitle.innerHTML="Нам буде вас не вистачати";
+title.classList.remove("glow");
+hearts.style.display="none";
+fog.style.display="block";
+}
+}
+</script> </body>  
 </html>
+
 
 
 
