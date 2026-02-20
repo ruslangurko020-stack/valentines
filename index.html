@@ -127,12 +127,20 @@ text-align:center;
 100%{background-position:200px}  
 }  
   
-.rings{  
-width:120px;  
-height:120px;  
-margin:20px auto;  
-position:relative;  
-}  
+ .rings{
+width:120px;
+height:120px;
+margin:20px auto;
+position:relative;
+transform:scale(0);
+opacity:0;
+transition:1s;
+}
+
+.rings.active{
+transform:scale(1);
+opacity:1;
+} 
   
 .rings div{  
 width:100px;  
@@ -490,7 +498,28 @@ const fog=document.querySelector(".fog");
 
 screen.style.display="flex";
 
-if(selectValue==="Буду ❤️"){
+if(selectValue==="Буду ❤️"){ 
+  // 🎵 Музика починає стихати
+        let music = document.getElementById("music");
+        let volume = 1;
+
+        let fadeMusic = setInterval(function(){
+            if (volume > 0) {
+                volume -= 0.05;
+                music.volume = volume;
+            } else {
+                clearInterval(fadeMusic);
+            }
+        }, 200);
+  // 💍 Через 1 секунду показати кільця
+setTimeout(function(){
+  document.querySelector(".rings").classList.add("active");
+}, 1000);
+  document.getElementById("champagneSound").play();
+
+setTimeout(function(){
+    document.getElementById("glassClink").play();
+}, 2500);
 title.innerHTML="Дякуємо за відповідь ❤️";
 subtitle.innerHTML="Зустрінемось 22.04";
 title.classList.add("glow");
@@ -504,8 +533,11 @@ hearts.style.display="none";
 fog.style.display="block";
 }
 }
-</script> </body>  
+</script> <audio id="champagneSound" src="champagne.mp3"></audio>
+<audio id="glassClink" src="clink.mp3"></audio>
+</body>  
 </html>
+
 
 
 
