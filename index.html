@@ -483,7 +483,67 @@ const link=document.createElement('a');
 link.href=URL.createObjectURL(blob);  
 link.download="wedding.ics";  
 link.click();  
-}  
+}  function startFireworks() {
+    const canvas = document.getElementById("fireworksCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let fireworks = [];
+
+    function random(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    class Firework {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.particles = [];
+            for (let i = 0; i < 30; i++) {
+                this.particles.push({
+                    x: this.x,
+                    y: this.y,
+                    vx: random(-5, 5),
+                    vy: random(-5, 5),
+                    alpha: 1
+                });
+            }
+        }
+        update() {
+            this.particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.05;
+                p.alpha -= 0.02;
+            });
+            this.particles = this.particles.filter(p => p.alpha > 0);
+        }
+        draw() {
+            this.particles.forEach(p => {
+                ctx.globalAlpha = p.alpha;
+                ctx.fillStyle = "gold";
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+    }
+
+    function loop() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (Math.random() < 0.05) {
+            fireworks.push(new Firework(random(100, canvas.width - 100), random(100, canvas.height/2)));
+        }
+        fireworks.forEach(fw => {
+            fw.update();
+            fw.draw();
+        });
+        fireworks = fireworks.filter(fw => fw.particles.length > 0);
+        requestAnimationFrame(loop);
+    }
+    loop();
+  }
 </script> <!-- THANK YOU SCREEN -->
 <div id="thankYouScreen" style="
 display:none;
@@ -502,7 +562,7 @@ overflow:hidden;
 font-family:'Playfair Display',serif;
 color:white;
 ">
-
+<canvas id="fireworksCanvas" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1;"></canvas>
 <div class="fog"></div>
 
 <div class="hearts" style="display:none;">
@@ -599,6 +659,7 @@ subtitle.innerHTML="Зустрінемось 22.04";
 title.classList.add("glow");
 hearts.style.display="block";
 fog.style.display="none";
+  startFireworks(); // <-- тут запускаємо феєрверки
 }else{
 title.innerHTML="Дуже прикро 😔";
 subtitle.innerHTML="Нам буде вас не вистачати";
@@ -611,6 +672,7 @@ fog.style.display="block";
 <audio id="glassClink" src="clink.mp3"></audio>
 </body>  
 </html>
+
 
 
 
