@@ -231,7 +231,74 @@ text-align:left;
 max-width:400px;  
 margin-left:auto;  
 margin-right:auto;  
-}  
+}  .wedding-calendar{
+  margin-top:30px;
+  max-width:350px;
+  margin-left:auto;
+  margin-right:auto;
+  background:#111;
+  padding:20px;
+  border-radius:20px;
+  box-shadow:0 0 30px rgba(212,175,55,0.6);
+}
+
+.cal-header{
+  text-align:center;
+  font-size:22px;
+  color:gold;
+  margin-bottom:15px;
+}
+
+.cal-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:8px;
+  text-align:center;
+}
+
+.cal-grid div{
+  padding:8px;
+} .wedding-day{
+  position:relative;
+  background:gold;
+  color:black;
+  border-radius:50%;
+  font-weight:bold;
+  animation:pulse 1.5s infinite;
+}
+
+/* ❤️ Серця */
+.wedding-day::before,
+.wedding-day::after{
+  content:"❤️";
+  position:absolute;
+  font-size:12px;
+  animation:floatHearts 2s infinite ease-in-out;
+}
+
+.wedding-day::before{
+  top:-10px;
+  left:-10px;
+}
+
+.wedding-day::after{
+  bottom:-10px;
+  right:-10px;
+}
+
+@keyframes floatHearts{
+  0%{transform:translateY(0);opacity:0.6;}
+  50%{transform:translateY(-5px);opacity:1;}
+  100%{transform:translateY(0);opacity:0.6;}
+}
+
+
+
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.2)}
+  100%{transform:scale(1)}
+  }
 </style>  </head>  <body>  <canvas id="stars"></canvas>
 
 <section id="envelopeSection">  
@@ -243,15 +310,26 @@ margin-right:auto;
 </section>  <section id="musicSection">  
 <button onclick="startMusic()">Увімкнути музику</button>  
 <div id="scrollText">Гортайте вниз ↓</div>  
-</section>  <section id="mainContent">  <div class="rings">  
-<div></div>  
-<div></div>  
-</div> <div class="main-rings">
+</section>  <section id="mainContent">   <div class="main-rings">
   <div></div>
   <div></div>
 </div> <div class="names">Руслан</div>  
 <div class="names">&</div>  
-<div class="names">Крістіна</div>  <div class="date">22 квітня 2026</div>  
+<div class="names">Крістіна</div>  <div class="wedding-calendar">
+  <div class="cal-header">Квітень 2026</div>
+  <div class="cal-grid">
+    <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Нд</div>
+
+    <div></div><div></div><div></div>
+    <div>1</div><div>2</div><div>3</div><div>4</div>
+    <div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div>
+    <div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div>
+    <div>19</div><div>20</div><div>21</div>
+    <div class="wedding-day">22</div>
+    <div>23</div><div>24</div><div>25</div>
+    <div>26</div><div>27</div><div>28</div><div>29</div><div>30</div>
+  </div>
+</div>  
 <div id="timer"></div>  <div class="timeline">  
 <div>2021 - Познайомились в мережі</div>  
 <div>2025 - Зустрілись</div>  
@@ -533,6 +611,7 @@ fog.style.display="block";
 <audio id="glassClink" src="clink.mp3"></audio>
 </body>  
 </html>
+
 
 
 
